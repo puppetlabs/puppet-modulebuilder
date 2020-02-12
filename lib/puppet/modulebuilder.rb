@@ -1,8 +1,10 @@
-require "puppet/modulebuilder/version"
+# frozen_string_literal: true
 
-module Puppet
+require 'puppet/modulebuilder/version'
+
+# main module for puppet modulebuilder
+module Puppet # rubocop:disable Style/ClassAndModuleChildren
+  # main module for puppet modulebuilder
   module Modulebuilder
-    class Error < StandardError; end
-    # Your code goes here...
   end
 end
