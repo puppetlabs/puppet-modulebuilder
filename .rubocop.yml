@@ -72,6 +72,26 @@ RSpec/MessageSpies:
 RSpec/ScatteredSetup:
   Enabled: False
 
+# This is fine
+RSpec/ImplicitSubject:
+  Enabled: false
+
+# Set a reasonble max level
+RSpec/MultipleExpectations:
+  Max: 10
+
+# Nested contexts don't comply
+RSpec/ContextWording:
+  Enabled: false
+
+# This is allowed
+RSpec/SubjectStub:
+  Enabled: false
+
+# Doesn't help readability
+RSpec/PredicateMatcher:
+  Enabled: false
+
 # Style Cops
 Style/AsciiComments:
   Description: Names, non-english speaking communities.
@@ -136,6 +156,15 @@ Style/SymbolArray:
   Description: Using percent style obscures symbolic intent of array's contents.
   Enabled: true
   EnforcedStyle: brackets
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 # Enforce LF line endings, even when on Windows
 Layout/EndOfLine:
