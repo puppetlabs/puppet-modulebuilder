@@ -206,12 +206,12 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       end
 
       context 'when the path is too long' do
-        let(:path_to_stage) { File.join(*['thing'] * 30) }
+        let(:path_to_stage) { File.join(module_source, File.join(*['thing'] * 300)) }
 
         it do
           expect {
             builder.stage_path(path_to_stage)
-          }.to raise_error(ArgumentError)
+          }.to raise_error(RuntimeError, %r{longer than 256.*Rename the file or exclude it from the package})
         end
       end
     end
