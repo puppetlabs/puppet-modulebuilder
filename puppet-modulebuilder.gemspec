@@ -3,13 +3,12 @@
 require_relative 'lib/puppet/modulebuilder/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'puppet-modulebuilder'
-  spec.version       = Puppet::Modulebuilder::VERSION
-  spec.authors       = ['Sheena', 'Team IAC']
-  spec.email         = ['sheena@puppet.com', 'https://puppetlabs.github.io/iac/']
-
-  spec.summary       = 'A gem to set up puppet-modulebuilder'
-  spec.homepage      = 'https://github.com/puppetlabs/puppet-modulebuilder'
+  spec.name                  = 'puppet-modulebuilder'
+  spec.version               = Puppet::Modulebuilder::VERSION
+  spec.authors               = ['Sheena', 'Team IAC']
+  spec.email                 = ['sheena@puppet.com', 'https://puppetlabs.github.io/iac/']
+  spec.summary               = 'A gem to set up puppet-modulebuilder'
+  spec.homepage              = 'https://github.com/puppetlabs/puppet-modulebuilder'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
 
   spec.metadata['homepage_uri'] = spec.homepage
@@ -24,4 +23,7 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
+  # minitar and pathspec is required for building Puppet modules
+  spec.add_runtime_dependency 'minitar', '~> 0.6'
+  spec.add_runtime_dependency 'pathspec', '~> 0.2.1'
 end
