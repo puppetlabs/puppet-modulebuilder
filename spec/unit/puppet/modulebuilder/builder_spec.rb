@@ -27,19 +27,21 @@ RSpec.describe Puppet::Modulebuilder::Builder do
   end
 
   describe '#initialize' do
-    it 'raises when the source does not exist' do
-      allow(builder).to receive(:file_directory?).with(module_source).and_return(false)
-      expect { builder.source }.to raise_error(ArgumentError, %r{does not exist})
+    context 'when the source does not exist' do
+      it do
+        allow(builder).to receive(:file_directory?).with(module_source).and_return(false)
+        expect { builder.source }.to raise_error(ArgumentError, %r{does not exist})
+      end
     end
 
     context 'with an invalid logger' do
-      it 'raises' do
+      it do
         expect { described_class.new(module_source, module_dest, [123]) }.to raise_error(ArgumentError, %r{logger is expected to})
       end
     end
 
     context 'with a real logger' do
-      it 'does not raise' do
+      it do
         expect { described_class.new(module_source, module_dest, Logger.new($stdout)) }.not_to raise_error
       end
     end
@@ -155,7 +157,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
           allow(builder).to receive(:fileutils_cp).with(path, anything, anything).and_return(true)
         end
 
-        it 'exits with an error' do
+        it do
           expect {
             builder.stage_path(path)
           }.to raise_error(ArgumentError, %r{can only include ASCII characters})
@@ -206,7 +208,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       context 'when the path is too long' do
         let(:path_to_stage) { File.join(*['thing'] * 30) }
 
-        it 'exits with an error' do
+        it do
           expect {
             builder.stage_path(path_to_stage)
           }.to raise_error(ArgumentError)
@@ -216,8 +218,6 @@ RSpec.describe Puppet::Modulebuilder::Builder do
   end
 
   describe '#path_too_long?' do
-    subject(:instance) { described_class.new }
-
     good_paths = [
       File.join('a' * 155, 'b' * 100),
       File.join('a' * 151, *['qwer'] * 19, 'bla'),
@@ -235,25 +235,21 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     }
 
     good_paths.each do |path|
-      context "when checking '#{path}'" do
-        it 'does not raise an error' do
-          expect { builder.validate_ustar_path!(path) }.not_to raise_error
-        end
+      describe "the path '#{path}'" do
+        it { expect { builder.validate_ustar_path!(path) }.not_to raise_error }
       end
     end
 
     bad_paths.each do |path, err|
-      context "when checking '#{path}'" do
-        it 'raises an ArgumentError' do
-          expect { builder.validate_ustar_path!(path) }.to raise_error(ArgumentError, err)
-        end
+      describe "the path '#{path}'" do
+        it { expect { builder.validate_ustar_path!(path) }.to raise_error(ArgumentError, err) }
       end
     end
   end
 
   describe '#validate_path_encoding!' do
     context 'when passed a path containing only ASCII characters' do
-      it 'does not raise an error' do
+      it do
         expect {
           builder.validate_path_encoding!(File.join('path', 'to', 'file'))
         }.not_to raise_error
@@ -261,7 +257,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     end
 
     context 'when passed a path containing non-ASCII characters' do
-      it 'raises an error' do
+      it do
         expect {
           builder.validate_path_encoding!(File.join('path', "\330\271to", 'file'))
         }.to raise_error(ArgumentError, %r{can only include ASCII characters})
