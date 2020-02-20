@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'puppet/modulebuilder/builder'
 
-describe Puppet::Modulebuilder::Builder do
+RSpec.describe Puppet::Modulebuilder::Builder do
   pending('Requires some acceptance tests to actually build a module and check the output')
 
   # spec_helper_acceptance

@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'puppet/modulebuilder/builder'
 
-describe Puppet::Modulebuilder::Builder do
+RSpec.describe Puppet::Modulebuilder::Builder do
   subject(:builder) { described_class.new(module_source, module_dest, logger) }
 
   let(:module_source) { File.join(root_dir, 'path', 'to', 'module') }
