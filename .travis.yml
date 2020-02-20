@@ -5,6 +5,8 @@ cache: bundler
 jobs:
   include:
   - rvm: 2.5.7
+    env:
+    - SIMPLECOV=yes
     before_install: gem install bundler -v 2.1.4
   - rvm: 2.4.9
     before_install: gem install bundler -v 2.1.4
