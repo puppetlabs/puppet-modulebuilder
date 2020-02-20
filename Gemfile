@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in puppet-modulebuilder.gemspec
 gemspec
 
-gem 'rake', '~> 12.0'
+gem 'rake', '~> 13.0'
 gem 'rspec', '~> 3.0'
 if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.3.0')
   gem 'rubocop', '~> 0.68'
