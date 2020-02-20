@@ -7,8 +7,14 @@ gemspec
 
 gem 'rake', '~> 12.0'
 gem 'rspec', '~> 3.0'
-gem 'rubocop'
-gem 'rubocop-rspec'
+if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.3.0')
+  gem 'rubocop', '~> 0.68'
+  gem 'rubocop-rspec', '~> 1.38'
+
+  gem 'codecov', '~> 0.1'
+  gem 'simplecov', '~> 0.18'
+  gem 'simplecov-console', '~> 0.6'
+end
 
 # Evaluate Gemfile.local and ~/.gemfile if they exist
 extra_gemfiles = [

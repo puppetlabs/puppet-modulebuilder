@@ -1,6 +1,7 @@
 ---
 install:
   - set PATH=C:\Ruby25-x64\bin;%PATH%
+  - set SIMPLECOV=yes
   - gem install bundler -v 2.1.4
   - bundle -v
   - bundle install --retry 2
