@@ -10,6 +10,8 @@ AllCops:
     # package testing gems
     - package-testing/vendor/**/*
     - package-testing/vendor/**/.*
+    # Any thing in test fixtures
+    - spec/fixtures/**/*
 
 # Metrics, excludes complexity and sizing metrics for now, as ruby's defaults are very strict
 Metrics/AbcSize:
