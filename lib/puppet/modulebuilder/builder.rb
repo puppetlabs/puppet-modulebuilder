@@ -383,32 +383,32 @@ module Puppet::Modulebuilder
 
     # Filesystem wrapper methods.
     # These are mocked in spec tests.
-    def file_exists?(*args)
-      File.file?(*args)
+    def file_exists?(*args, **kwargs)
+      File.file?(*args, **kwargs)
     end
 
-    def file_readable?(*args)
-      File.readable?(*args)
+    def file_readable?(*args, **kwargs)
+      File.readable?(*args, **kwargs)
     end
 
-    def file_directory?(*args)
-      File.directory?(*args)
+    def file_directory?(*args, **kwargs)
+      File.directory?(*args, **kwargs)
     end
 
-    def file_symlink?(*args)
-      File.symlink?(*args)
+    def file_symlink?(*args, **kwargs)
+      File.symlink?(*args, **kwargs)
     end
 
-    def fileutils_cp(*args)
-      FileUtils.cp(*args)
+    def fileutils_cp(*args, **kwargs)
+      FileUtils.cp(*args, **kwargs)
     end
 
-    def fileutils_mkdir_p(*args)
-      FileUtils.mkdir_p(*args)
+    def fileutils_mkdir_p(*args, **kwargs)
+      FileUtils.mkdir_p(*args, **kwargs)
     end
 
-    def file_stat(*args)
-      File.stat(*args)
+    def file_stat(*args, **kwargs)
+      File.stat(*args, **kwargs)
     end
   end
 end
