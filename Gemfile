@@ -9,7 +9,7 @@ group :development do
   gem 'rake', '~> 12.0'
   gem 'rspec', '~> 3.0'
   if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.3.0')
-    gem 'rubocop', '~> 0.68'
+    gem 'rubocop', ['~> 0.68', '< 0.82.0']
     gem 'rubocop-rspec', '~> 1.38'
 
     gem 'codecov', '~> 0.1'
