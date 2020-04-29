@@ -20,7 +20,7 @@ module Puppet::Modulebuilder
 
     attr_reader :logger
 
-    def initialize(source, destination, logger)
+    def initialize(source, destination = nil, logger = nil)
       raise ArgumentError, 'logger is expected to be nil or a Logger. Got %{klass}' % { klass: logger.class } unless logger.nil? || logger.is_a?(Logger)
 
       @source_validated = false
