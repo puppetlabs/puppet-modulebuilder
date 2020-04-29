@@ -6,6 +6,7 @@ module Puppet::Modulebuilder
   # Class to build Puppet Modules from source
   class Builder
     DEFAULT_IGNORED = [
+      '/.git',
       '/pkg/',
       '~*',
       '/coverage',
