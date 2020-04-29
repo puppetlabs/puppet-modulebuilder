@@ -17,13 +17,14 @@ group :development do
     gem 'simplecov-console', '~> 0.6'
   end
 
-  if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.5.0')
-    gem 'puppet', '~> 6.0'
-  elsif Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.4.0')
-    gem 'puppet', '~> 5.0' # rubocop:disable Bundler/DuplicatedGem Nope, not a duplicate!
-  else
-    gem 'puppet', '~> 4.0' # rubocop:disable Bundler/DuplicatedGem Nope, not a duplicate!
-  end
+  puppet_version = if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.5.0')
+                     '~> 6.0'
+                   elsif Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.4.0')
+                     '~> 5.0'
+                   else
+                     '~> 4.0'
+                   end
+  gem 'puppet', puppet_version
 end
 
 # Evaluate Gemfile.local and ~/.gemfile if they exist
