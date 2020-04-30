@@ -15,6 +15,7 @@ group :development do
     gem 'codecov', '~> 0.1'
     gem 'simplecov', '~> 0.18'
     gem 'simplecov-console', '~> 0.6'
+    gem 'github_changelog_generator', '~> 1.15', require: false
   end
 
   if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.5.0')
