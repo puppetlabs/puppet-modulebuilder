@@ -3,7 +3,6 @@
 require 'puppet/modulebuilder'
 
 FIXTURES_DIR = File.expand_path(File.join(__dir__, 'fixtures'))
-MODULE_FIXTURE = File.join(FIXTURES_DIR, 'module')
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

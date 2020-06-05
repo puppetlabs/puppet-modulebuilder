@@ -6,31 +6,35 @@ require 'tmpdir'
 
 RSpec.describe Puppet::Modulebuilder::Builder do
   RSpec.shared_context 'with module source' do
-    let(:tmp_module_dir) { Dir.mktmpdir }
-    let(:module_source) { File.join(tmp_module_dir, File.basename(MODULE_FIXTURE)) }
+    let(:tmp_dir) { Dir.mktmpdir }
+    let(:module_source) { File.join(tmp_dir, 'linked') }
+    let(:module_source_actual) { File.join(tmp_dir, 'module') }
+    let(:output_dir) { File.join(tmp_dir, 'pkg') }
 
     before(:each) do
-      # Copy the module
-      FileUtils.cp_r(MODULE_FIXTURE, tmp_module_dir)
+      # Copy the module to the temporary directory
+      FileUtils.cp_r(File.join(FIXTURES_DIR, 'module'), tmp_dir)
+
+      # prepare a symlink pointing to the module. All module builder functions should work on symlinks.
+      # See https://github.com/puppetlabs/puppet_litmus/pull/301 for background
+      FileUtils.ln_s(module_source_actual, module_source)
     end
 
     after(:each) do
-      FileUtils.rm_rf(tmp_module_dir) if Dir.exist?(tmp_module_dir)
+      FileUtils.rm_rf(tmp_dir) if Dir.exist?(tmp_dir)
     end
   end
-
-  let(:logger) { nil }
 
   context 'with a real module that is built' do
     include_context 'with module source'
 
     let(:tarball_name) do
-      builder = described_class.new(module_source, tmp_module_dir, nil)
+      builder = described_class.new(module_source, output_dir, nil)
       builder.build
     end
 
     it 'builds the module and returns the path to the tarball' do
-      expect(tarball_name).to match(%r{#{tmp_module_dir}})
+      expect(tarball_name).to start_with(output_dir)
     end
 
     context 'which is installed via Puppet' do
