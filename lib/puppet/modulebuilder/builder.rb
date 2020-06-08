@@ -400,12 +400,12 @@ module Puppet::Modulebuilder
       File.symlink?(*args)
     end
 
-    def fileutils_cp(*args)
-      FileUtils.cp(*args)
+    def fileutils_cp(src, dest, **options)
+      FileUtils.cp(src, dest, **options)
     end
 
-    def fileutils_mkdir_p(*args)
-      FileUtils.mkdir_p(*args)
+    def fileutils_mkdir_p(dir, **options)
+      FileUtils.mkdir_p(dir, **options)
     end
 
     def file_stat(*args)
