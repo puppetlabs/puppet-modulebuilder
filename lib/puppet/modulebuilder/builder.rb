@@ -35,7 +35,7 @@ module Puppet::Modulebuilder
       return @source if @source_validated
 
       validate_source!
-      @source
+      @source = File.realpath(@source)
     end
 
     # Build a module package from a module directory.

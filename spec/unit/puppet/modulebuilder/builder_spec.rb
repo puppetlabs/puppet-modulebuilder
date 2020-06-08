@@ -15,6 +15,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     # Mock that the module source exists
     allow(builder).to receive(:file_directory?).with(module_source).and_return(true)
     allow(builder).to receive(:file_readable?).with(module_source).and_return(true)
+    allow(File).to receive(:realpath).with(module_source).and_return(module_source)
   end
 
   shared_context 'with mock metadata' do |metadata_content|
