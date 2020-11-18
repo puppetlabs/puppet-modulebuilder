@@ -121,7 +121,7 @@ module Puppet::Modulebuilder
     def ignored_path?(path)
       path = path.to_s + '/' if File.directory?(path)
 
-      !ignored_files.match_paths([path], source).empty?
+      ignored_files.match_path(path, source)
     end
 
     # Warn the user about a symlink that would have been included in the
