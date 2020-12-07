@@ -72,7 +72,9 @@ module Puppet::Modulebuilder
     def stage_module_in_build_dir
       require 'find'
 
-      Find.find(source) do |path|
+      directories = [source]
+
+      staged = Find.find(source) do |path|
         next if path == source
 
         if ignored_path?(path)
@@ -80,9 +82,18 @@ module Puppet::Modulebuilder
           Find.prune
         else
           logger.debug("Staging #{path} for the build")
+          directories << path if file_directory?(path)
           stage_path(path)
         end
       end
+
+      # Reset directory mtimes. This must happen after the files have been
+      # copied since that modifies a directory's mtime
+      directories.each do |directory|
+        copy_mtime(directory)
+      end
+
+      staged
     end
 
     # Stage a file or directory from the module into the build directory.
@@ -110,6 +121,17 @@ module Puppet::Modulebuilder
       rescue ArgumentError => e
         raise '%{message} Rename the file or exclude it from the package by adding it to the .pdkignore file in your module.' % { message: e.message }
       end
+    end
+
+    def copy_mtime(path)
+      require 'pathname'
+
+      relative_path = Pathname.new(path).relative_path_from(Pathname.new(source))
+      dest_path = File.join(build_dir, relative_path)
+
+      validate_path_encoding!(relative_path.to_path)
+
+      fileutils_touch(dest_path, mtime: file_stat(path).mtime)
     end
 
     # Check if the given path matches one of the patterns listed in the
@@ -406,6 +428,10 @@ module Puppet::Modulebuilder
 
     def fileutils_mkdir_p(dir, **options)
       FileUtils.mkdir_p(dir, **options)
+    end
+
+    def fileutils_touch(list, **options)
+      FileUtils.touch(list, **options)
     end
 
     def file_stat(*args)
