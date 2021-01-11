@@ -25,5 +25,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   # minitar and pathspec is required for building Puppet modules
   spec.add_runtime_dependency 'minitar', '~> 0.6'
-  spec.add_runtime_dependency 'pathspec', '~> 0.2.1'
+  spec.add_runtime_dependency 'pathspec', '>= 0.2.1', '< 2.0.0'
 end
