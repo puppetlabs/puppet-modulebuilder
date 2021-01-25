@@ -53,7 +53,9 @@ module Puppet::Modulebuilder
     end
 
     # Return the path to the temporary build directory, which will be placed
-    # inside the target directory and match the release name (see #release_name).
+    # inside the target directory and match the release name
+    #
+    # @see #release_name
     def build_dir
       @build_dir ||= File.join(build_context[:parent_dir], build_context[:build_dir_name])
     end
