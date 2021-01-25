@@ -147,7 +147,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     let(:release_name) { 'my-module-0.0.1' }
 
     before(:each) do
-      allow(builder).to receive(:release_name).and_return(release_name)
+      builder.release_name = release_name
     end
 
     context 'when the path contains non-ASCII characters' do

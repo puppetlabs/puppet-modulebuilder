@@ -53,7 +53,9 @@ module Puppet::Modulebuilder
     end
 
     # Return the path to the temporary build directory, which will be placed
-    # inside the target directory and match the release name (see #release_name).
+    # inside the target directory and match the release name
+    #
+    # @see #release_name
     def build_dir
       @build_dir ||= File.join(build_context[:parent_dir], build_context[:build_dir_name])
     end
@@ -321,16 +323,22 @@ module Puppet::Modulebuilder
       file_exists?(package_file)
     end
 
-    # Combine the module name and version into a Forge-compatible dash
-    # separated string.
+    # The release name is used for the build directory and resulting package
+    # file.
     #
-    # @return [String] The module name and version, joined by a dash.
+    # The default combines the module name and version into a Forge-compatible
+    # dash separated string. Unless you have an unusual use case this isn't set
+    # manually.
+    #
+    # @return [String]
     def release_name
       @release_name ||= [
         metadata['name'],
         metadata['version'],
       ].join('-')
     end
+
+    attr_writer :release_name
 
     # Checks if the path length will fit into the POSIX.1-1998 (ustar) tar
     # header format.
