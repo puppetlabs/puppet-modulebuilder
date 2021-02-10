@@ -1,6 +1,11 @@
 ---
+environment:
+  matrix:
+    - RUBY_VERSION: 25-x64
+    - RUBY_VERSION: 24-x64
+
 install:
-  - set PATH=C:\Ruby25-x64\bin;%PATH%
+  - set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
   - set SIMPLECOV=yes
   - gem install bundler -v 2.1.4
   - bundle -v
@@ -10,6 +15,7 @@ build: off
 
 branches:
   only:
+    - main
     - master
 
 before_test:
