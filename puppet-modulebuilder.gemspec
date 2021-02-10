@@ -24,6 +24,6 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
   # minitar and pathspec is required for building Puppet modules
-  spec.add_runtime_dependency 'minitar', '~> 0.6'
+  spec.add_runtime_dependency 'minitar', '~> 0.9'
   spec.add_runtime_dependency 'pathspec', '>= 0.2.1', '< 2.0.0'
 end
