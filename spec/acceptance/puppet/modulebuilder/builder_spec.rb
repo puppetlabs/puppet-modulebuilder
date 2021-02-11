@@ -51,7 +51,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         end
       end
 
-      RSpec::Matchers.define :be_identical_as_soource do
+      RSpec::Matchers.define :be_identical_as_source do
         match do |actual|
           # Dir.glob(..., base: xxx) does not work, so need to use a crude method to get the relative directory path
           @source = Dir.glob(module_source + actual).map { |p| p.slice(module_source.length..-1) }
@@ -95,9 +95,9 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         expect('/appveyor.yml').to be_an_empty_glob
 
         # Important Extracted files
-        expect('/manifests/*').to be_identical_as_soource
-        expect('/templates/*').to be_identical_as_soource
-        expect('/lib/*').to be_identical_as_soource
+        expect('/manifests/*').to be_identical_as_source
+        expect('/templates/*').to be_identical_as_source
+        expect('/lib/*').to be_identical_as_source
       end
     end
   end
