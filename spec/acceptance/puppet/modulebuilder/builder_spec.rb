@@ -18,10 +18,17 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       # prepare a symlink pointing to the module. All module builder functions should work on symlinks.
       # See https://github.com/puppetlabs/puppet_litmus/pull/301 for background
       FileUtils.ln_s(module_source_actual, module_source)
+
+      long_path = File.join(module_source_actual, 'manifests', '1234567890')
+      long_path = File.join(long_path, '1234567890') while long_path.length < 1000
+      FileUtils.mkdir_p(long_path)
+      FileUtils.touch(File.join(long_path, 'short.pp'))
+      FileUtils.touch(File.join(long_path, ('l' * 252) + '.pp'))
     end
 
     after(:each) do
-      FileUtils.rm_rf(tmp_dir) if Dir.exist?(tmp_dir)
+      puts "tmp_dir: #{tmp_dir}"
+      # FileUtils.rm_rf(tmp_dir) if Dir.exist?(tmp_dir)
     end
   end
 
@@ -57,28 +64,33 @@ RSpec.describe Puppet::Modulebuilder::Builder do
           @source = Dir.glob(module_source + actual).map { |p| p.slice(module_source.length..-1) }
           @extracted = Dir.glob(extracted_module_path + actual).map { |p| p.slice(extracted_module_path.length..-1) }
 
-          @source == @extracted
+          @matcher = RSpec::Matchers::BuiltIn::ContainExactly.new(@source)
+          @matcher.matches?(@extracted)
         end
 
         failure_message do
-          "expected #{@source} but got #{@extracted}"
+          @matcher.failure_message
         end
       end
 
       before(:each) do
         # Force the module to be built...
         built_tarball = tarball_name
+        puts "built_tarball: #{built_tarball}"
 
         # Use puppet to "install" it...
         require 'open3'
-        output, status = Open3.capture2e("puppet module install --force --ignore-dependencies --target-dir #{extract_path} --verbose #{built_tarball}")
+        command = "puppet module install --force --ignore-dependencies --target-dir #{extract_path} --verbose #{built_tarball}"
+        puts command
+        output, status = Open3.capture2e(command)
 
         raise "Failed to install the module using Puppet. Exit code #{status.exitstatus}: #{output}" unless status.exitstatus.zero?
         raise 'Failed to install the module using Puppet. Missing extract directory' if extracted_module_path.nil?
       end
 
       after(:each) do
-        FileUtils.rm_rf(extract_path) if Dir.exist?(extract_path)
+        puts "extract_path: #{extract_path}"
+        # FileUtils.rm_rf(extract_path) if Dir.exist?(extract_path)
       end
 
       it 'expands the expected paths' do # rubocop:disable RSpec/MultipleExpectations This is expected
@@ -95,9 +107,9 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         expect('/appveyor.yml').to be_an_empty_glob
 
         # Important Extracted files
-        expect('/manifests/*').to be_identical_as_source
-        expect('/templates/*').to be_identical_as_source
-        expect('/lib/*').to be_identical_as_source
+        expect('/manifests/**/*').to be_identical_as_source
+        expect('/templates/**/*').to be_identical_as_source
+        expect('/lib/**/*').to be_identical_as_source
       end
     end
   end
