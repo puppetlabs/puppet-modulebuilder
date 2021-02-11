@@ -158,9 +158,9 @@ module Puppet::Modulebuilder
       require 'pathname'
 
       symlink_path = Pathname.new(path)
-      module_path = Pathname.new(module_dir)
+      module_path = Pathname.new(source)
 
-      logger.warn _('Symlinks in modules are not supported and will not be included in the package. Please investigate symlink %{from} -> %{to}.') % {
+      logger.warn 'Symlinks in modules are not supported and will not be included in the package. Please investigate symlink %{from} -> %{to}.' % {
         from: symlink_path.relative_path_from(module_path),
         to: symlink_path.realpath.relative_path_from(module_path),
       }

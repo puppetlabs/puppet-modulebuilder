@@ -392,4 +392,22 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       end
     end
   end
+
+  describe '#warn_symlink' do
+    let(:symlink_path) { instance_double(Pathname, 'symlink_path') }
+    let(:module_path) { instance_double(Pathname, 'module_path') }
+    let(:realpath) { instance_double(Pathname, 'realpath') }
+
+    it 'warns' do
+      allow(Pathname).to receive(:new).with('/tmp/foo').and_return(symlink_path)
+      allow(Pathname).to receive(:new).with('/path/to/module').and_return(module_path)
+      allow(Pathname).to receive(:new).with('C:/path/to/module').and_return(module_path)
+      allow(symlink_path).to receive(:relative_path_from).with(module_path).and_return('/symlink_path')
+      allow(symlink_path).to receive(:realpath).with(no_args).and_return(realpath)
+      allow(realpath).to receive(:relative_path_from).with(module_path).and_return('/realpath')
+
+      expect(builder.logger).to receive(:warn).with('Symlinks in modules are not supported and will not be included in the package. Please investigate symlink /symlink_path -> /realpath.')
+      expect(builder.warn_symlink('/tmp/foo')).to be_nil
+    end
+  end
 end
