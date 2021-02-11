@@ -222,36 +222,6 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     end
   end
 
-  describe '#path_too_long?' do
-    good_paths = [
-      File.join('a' * 155, 'b' * 100),
-      File.join('a' * 151, *['qwer'] * 19, 'bla'),
-      File.join('/', 'a' * 49, 'b' * 50),
-      File.join('a' * 49, "#{'b' * 50}x"),
-      File.join("#{'a' * 49}x", 'b' * 50),
-    ]
-
-    bad_paths = {
-      File.join('a' * 152, 'b' * 11, 'c' * 93) => %r{longer than 256}i,
-      File.join('a' * 152, 'b' * 10, 'c' * 92) => %r{could not be split}i,
-      File.join('a' * 162, 'b' * 10) => %r{could not be split}i,
-      File.join('a' * 10, 'b' * 110) => %r{could not be split}i,
-      'a' * 114 => %r{could not be split}i,
-    }
-
-    good_paths.each do |path|
-      describe "the path '#{path}'" do
-        it { expect { builder.validate_ustar_path!(path) }.not_to raise_error }
-      end
-    end
-
-    bad_paths.each do |path, err|
-      describe "the path '#{path}'" do
-        it { expect { builder.validate_ustar_path!(path) }.to raise_error(ArgumentError, err) }
-      end
-    end
-  end
-
   describe '#validate_path_encoding!' do
     context 'when passed a path containing only ASCII characters' do
       it do

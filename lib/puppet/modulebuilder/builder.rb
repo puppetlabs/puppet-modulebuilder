@@ -117,7 +117,6 @@ module Puppet::Modulebuilder
         elsif file_symlink?(path)
           warn_symlink(path)
         else
-          validate_ustar_path!(relative_path.to_path)
           fileutils_cp(path, dest_path, preserve: true)
         end
       rescue ArgumentError => e
@@ -339,58 +338,6 @@ module Puppet::Modulebuilder
     end
 
     attr_writer :release_name
-
-    # Checks if the path length will fit into the POSIX.1-1998 (ustar) tar
-    # header format.
-    #
-    # POSIX.1-2001 (which allows paths of infinite length) was adopted by GNU
-    # tar in 2004 and is supported by minitar 0.7 and above. Unfortunately
-    # much of the Puppet ecosystem still uses minitar 0.6.1.
-    #
-    # POSIX.1-1998 tar format does not allow for paths greater than 256 bytes,
-    # or paths that can't be split into a prefix of 155 bytes (max) and
-    # a suffix of 100 bytes (max).
-    #
-    # This logic was pretty much copied from the private method
-    # {Archive::Tar::Minitar::Writer#split_name}.
-    #
-    # @param path [String] the relative path to be added to the tar file.
-    #
-    # @raise [ArgumentError] if the path is too long or could not be split.
-    #
-    # @return [nil]
-    def validate_ustar_path!(path)
-      if path.bytesize > 256
-        raise ArgumentError, "The path '%{path}' is longer than 256 bytes." % {
-          path: path,
-        }
-      end
-
-      if path.bytesize <= 100
-        prefix = ''
-      else
-        parts = path.split(File::SEPARATOR)
-        newpath = parts.pop
-        nxt = ''
-
-        loop do
-          nxt = parts.pop || ''
-          break if newpath.bytesize + 1 + nxt.bytesize >= 100
-
-          newpath = File.join(nxt, newpath)
-        end
-
-        prefix = File.join(*parts, nxt)
-        path = newpath
-      end
-
-      return unless path.bytesize > 100 || prefix.bytesize > 155
-
-      raise ArgumentError, \
-            "'%{path}' could not be split at a directory separator into two " \
-            'parts, the first having a maximum length of 155 bytes and the ' \
-            'second having a maximum length of 100 bytes.' % { path: path }
-    end
 
     private
 
