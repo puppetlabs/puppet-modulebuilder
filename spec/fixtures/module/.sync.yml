@@ -1,14 +1,11 @@
 ---
+common:
+  service_url: https://facade-main-6f3kfepqcq-ew.a.run.app/v1/provision
+
 ".gitlab-ci.yml":
   delete: true
-".rubocop.yml":
-  default_configs:
-    inherit_from: ".rubocop_todo.yml"
-    require:
-    - rubocop-i18n
-    - rubocop-rspec
 ".travis.yml":
-  global_env: 
+  global_env:
     - HONEYCOMB_WRITEKEY="7f3c63a70eecc61d635917de46bea4e6",HONEYCOMB_DATASET="litmus tests"
   dist: trusty
   deploy_to_forge:
@@ -20,11 +17,21 @@
   use_litmus: true
   litmus:
     provision_list:
-      - travis_deb
-      - travis_ub
-      - travis_el6
-      - travis_el7
-      - ---travis_el
+    - ---travis_el
+    - travis_deb
+    - travis_el7
+    - travis_el8
+    complex:
+    - collection:
+        puppet_collection:
+        - puppet6
+        provision_list:
+        - travis_ub_6
+    - collection:
+        puppet_collection:
+        - puppet5
+        provision_list:
+        - travis_ub_5
   simplecov: true
   notifications:
     slack:
@@ -44,17 +51,21 @@ appveyor.yml:
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
   simplecov: true
 Gemfile:
-  use_litmus: true
   optional:
     ":development":
-    - gem: puppet-lint-i18n
     - gem: github_changelog_generator
-      git: https://github.com/skywinder/github-changelog-generator
-      ref: 20ee04ba1234e9e83eb2ffb5056e23d641c7a018
-      condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')
-Rakefile:
-  requires:
-  - puppet_pot_generator/rake_tasks
+    - gem: puppet_litmus
+      git: https://github.com/puppetlabs/puppet_litmus
+      ref: main
+      condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.5.0')
 spec/spec_helper.rb:
   mock_with: ":rspec"
   coverage_report: true
+.gitpod.Dockerfile:
+  unmanaged: false
+.gitpod.yml:
+  unmanaged: false
+.github/workflows/nightly.yml:
+  unmanaged: false
+.github/workflows/pr_test.yml:
+  unmanaged: false

@@ -2,15 +2,50 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v4.3.0](https://github.com/puppetlabs/puppetlabs-motd/tree/v4.3.0) (2020-12-14)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-motd/compare/v4.2.0...v4.3.0)
+
+### Added
+
+- pdksync - \(feat\) - Add support for Puppet 7 [\#369](https://github.com/puppetlabs/puppetlabs-motd/pull/369) ([daianamezdrea](https://github.com/daianamezdrea))
+
+## [v4.2.0](https://github.com/puppetlabs/puppetlabs-motd/tree/v4.2.0) (2020-08-20)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-motd/compare/v4.1.1...v4.2.0)
+
+### Added
+
+- \(IAC-974\) - Removal of inappropriate terminology [\#326](https://github.com/puppetlabs/puppetlabs-motd/pull/326) ([david22swan](https://github.com/david22swan))
+- pdksync - \(IAC-973\) - Update travis/appveyor to run on new default branch main [\#320](https://github.com/puppetlabs/puppetlabs-motd/pull/320) ([david22swan](https://github.com/david22swan))
+- \(IAC-746\) - Add ubuntu 20.04 support [\#309](https://github.com/puppetlabs/puppetlabs-motd/pull/309) ([david22swan](https://github.com/david22swan))
+
+### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+
+- Update json requirement from 2.3.0 to 2.3.1 [\#316](https://github.com/puppetlabs/puppetlabs-motd/pull/316) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Update json requirement from = 2.1.0 to 2.3.0 [\#306](https://github.com/puppetlabs/puppetlabs-motd/pull/306) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump github\_changelog\_generator from 20ee04ba1234e9e83eb2ffb5056e23d641c7a018 to 1.15.2 [\#305](https://github.com/puppetlabs/puppetlabs-motd/pull/305) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
+## [v4.1.1](https://github.com/puppetlabs/puppetlabs-motd/tree/v4.1.1) (2020-05-19)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-motd/compare/v4.1.0...v4.1.1)
+
+### Fixed
+
+- \(MAINT\) Ensure FreeBSD compatibility [\#271](https://github.com/puppetlabs/puppetlabs-motd/pull/271) ([dandrzejewski](https://github.com/dandrzejewski))
+
 ## [v4.1.0](https://github.com/puppetlabs/puppetlabs-motd/tree/v4.1.0) (2020-01-20)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-motd/compare/v4.0.0...v4.1.0)
 
 ### Added
 
-- pdksync - \(FM-8581\) - Debian 10 added to travis and provision file refactored [\#277](https://github.com/puppetlabs/puppetlabs-motd/pull/277) ([david22swan](https://github.com/david22swan))
-- pdksync - "MODULES-10242 Add ubuntu14 support back to the modules" [\#267](https://github.com/puppetlabs/puppetlabs-motd/pull/267) ([sheenaajay](https://github.com/sheenaajay))
+- \(MODULES-10242\) Add back support for Ubuntu 14.04 [\#267](https://github.com/puppetlabs/puppetlabs-motd/pull/267) ([sheenaajay](https://github.com/sheenaajay))
 - \(FM-8691\) - Addition of Support for CentOS 8 [\#264](https://github.com/puppetlabs/puppetlabs-motd/pull/264) ([david22swan](https://github.com/david22swan))
+
+### Fixed
+
+- \(MODULES-10387\) Raise lower bound for puppetlabs-registry dependency to 4.0.0 [\#276](https://github.com/puppetlabs/puppetlabs-motd/pull/276) ([daianamezdrea](https://github.com/daianamezdrea))
 
 ## [v4.0.0](https://github.com/puppetlabs/puppetlabs-motd/tree/v4.0.0) (2019-11-11)
 
@@ -50,6 +85,7 @@ All notable changes to this project will be documented in this file. The format 
 - simplistic support for vscode integration to litmus added [\#212](https://github.com/puppetlabs/puppetlabs-motd/pull/212) ([abuxton](https://github.com/abuxton))
 - \(MODULES-8767\) Add support for SLES 15 [\#205](https://github.com/puppetlabs/puppetlabs-motd/pull/205) ([eimlav](https://github.com/eimlav))
 - \(FM-7647\) use puppet\_litmus for acceptance testing [\#200](https://github.com/puppetlabs/puppetlabs-motd/pull/200) ([tphoney](https://github.com/tphoney))
+- \(FM-7307\) - added translation functionality [\#150](https://github.com/puppetlabs/puppetlabs-motd/pull/150) ([Lavinia-Dan](https://github.com/Lavinia-Dan))
 
 ### Fixed
 
@@ -94,7 +130,6 @@ All notable changes to this project will be documented in this file. The format 
 
 - \(FM-7310\)- Updating Windows version support [\#156](https://github.com/puppetlabs/puppetlabs-motd/pull/156) ([lionce](https://github.com/lionce))
 - \(FM-7306\) - Added Puppet 4 data types and changed templates to .epp [\#152](https://github.com/puppetlabs/puppetlabs-motd/pull/152) ([eimlav](https://github.com/eimlav))
-- \(FM-7307\) - added translation functionality [\#150](https://github.com/puppetlabs/puppetlabs-motd/pull/150) ([Lavinia-Dan](https://github.com/Lavinia-Dan))
 - \(maint\) removing registry pin, update stdlib bound [\#145](https://github.com/puppetlabs/puppetlabs-motd/pull/145) ([tphoney](https://github.com/tphoney))
 - \(FM-7237\) - Addition of support for Ubuntu 18.04 on motd [\#140](https://github.com/puppetlabs/puppetlabs-motd/pull/140) ([david22swan](https://github.com/david22swan))
 
@@ -204,4 +239,4 @@ It also includes documentation and testing improvements.
 ####Known Bugs
 
 
-\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
