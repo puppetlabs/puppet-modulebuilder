@@ -16,7 +16,6 @@ build: off
 branches:
   only:
     - main
-    - master
 
 before_test:
   - bundle env
