@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/puppetlabs/puppet-modulebuilder.svg?branch=master)](https://travis-ci.com/puppetlabs/puppet-modulebuilder) [![Build status](https://ci.appveyor.com/api/projects/status/j9tosvq4a09iw0bx/branch/master?svg=true)](https://ci.appveyor.com/project/puppetlabs/puppet-modulebuilder/branch/master)
+[![Build Status](https://travis-ci.com/puppetlabs/puppet-modulebuilder.svg?branch=main)](https://travis-ci.com/puppetlabs/puppet-modulebuilder) [![Build status](https://ci.appveyor.com/api/projects/status/j9tosvq4a09iw0bx/branch/main?svg=true)](https://ci.appveyor.com/project/puppetlabs/puppet-modulebuilder/branch/main)
 
 # Puppet::Modulebuilder
 
