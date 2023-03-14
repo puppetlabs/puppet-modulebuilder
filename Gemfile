@@ -13,7 +13,7 @@ group :development do
 
   gem 'rubocop', '= 1.6.1',                            require: false
   gem 'rubocop-performance', '= 1.9.1',                require: false
-  gem 'rubocop-rspec', '= 2.0.1',                      require: false
+  gem 'rubocop-rspec', '2.4.0',                      require: false
 
   gem 'codecov', '~> 0.1'
   gem 'github_changelog_generator', '~> 1.15', require: false
