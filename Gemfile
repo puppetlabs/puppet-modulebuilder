@@ -11,8 +11,9 @@ group :development do
   gem 'rake', '~> 12.0'
   gem 'rspec', '~> 3.0'
 
-  gem 'rubocop', ['~> 0.68', '< 0.82.0']
-  gem 'rubocop-rspec', '~> 1.38'
+  gem 'rubocop', '= 1.6.1',                            require: false
+  gem 'rubocop-performance', '= 1.9.1',                require: false
+  gem 'rubocop-rspec', '= 2.0.1',                      require: false
 
   gem 'codecov', '~> 0.1'
   gem 'github_changelog_generator', '~> 1.15', require: false

@@ -1,7 +1,7 @@
 require: rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.5
   Exclude:
     # binstubs, and other utilities
     - bin/**/*
@@ -178,3 +178,6 @@ Lint/RaiseException:
 
 Lint/StructNewOverride:
   Enabled: true
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 14
