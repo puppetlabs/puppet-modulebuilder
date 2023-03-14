@@ -16,9 +16,7 @@ module Puppet::Modulebuilder
       '/vendor/',
     ].freeze
 
-    attr_reader :destination
-
-    attr_reader :logger
+    attr_reader :destination, :logger
 
     def initialize(source, destination = nil, logger = nil)
       raise ArgumentError, 'logger is expected to be nil or a Logger. Got %{klass}' % { klass: logger.class } unless logger.nil? || logger.is_a?(Logger)
@@ -143,7 +141,7 @@ module Puppet::Modulebuilder
     #
     # @return [Boolean] true if the path matches and should be ignored.
     def ignored_path?(path)
-      path = path.to_s + '/' if File.directory?(path)
+      path = "#{path}/" if File.directory?(path)
 
       ignored_files.match_path(path, source)
     end

@@ -31,7 +31,7 @@ jobs:
       matrix:
         os:
           - "ubuntu-latest"
-          - "windows-2019"
+          - "windows-latest"
         ruby_version:
           - "2.5"
           - "2.7"
@@ -43,7 +43,6 @@ jobs:
     secrets: "inherit"
     with:
       ruby_version: ${{ matrix.ruby_version }}
-      rake_task: 'acceptance:local_parallel'
+      rake_task: 'acceptance'
       puppet_version: ${{ matrix.puppet_gem_version }}
       runs_on: ${{ matrix.os }}
-
