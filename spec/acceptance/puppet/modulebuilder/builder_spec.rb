@@ -11,7 +11,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     let(:module_source_actual) { File.join(tmp_dir, 'module') }
     let(:output_dir) { File.join(tmp_dir, 'pkg') }
 
-    before(:each) do
+    before do
       # Copy the module to the temporary directory
       FileUtils.cp_r(File.join(FIXTURES_DIR, 'module'), tmp_dir)
 
@@ -20,7 +20,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       FileUtils.ln_s(module_source_actual, module_source)
     end
 
-    after(:each) do
+    after do
       FileUtils.rm_rf(tmp_dir)
     end
   end
@@ -65,7 +65,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         end
       end
 
-      before(:each) do
+      before do
         # Force the module to be built...
         built_tarball = tarball_name
 
@@ -77,7 +77,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         raise 'Failed to install the module using Puppet. Missing extract directory' if extracted_module_path.nil?
       end
 
-      after(:each) do
+      after do
         FileUtils.rm_rf(extract_path)
       end
 

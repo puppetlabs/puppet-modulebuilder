@@ -11,7 +11,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
   let(:logger) { nil }
   let(:root_dir) { Gem.win_platform? ? 'C:/' : '/' }
 
-  before(:each) do
+  before do
     # Mock that the module source exists
     allow(builder).to receive(:file_directory?).with(module_source).and_return(true)
     allow(builder).to receive(:file_readable?).with(module_source).and_return(true)
@@ -19,7 +19,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
   end
 
   shared_context 'with mock metadata' do |metadata_content|
-    before(:each) do
+    before do
       content = metadata_content.nil? ? "{\"name\": \"my-module\",\n\"version\": \"0.1.0\"}" : metadata_content
       allow(builder).to receive(:file_exists?).with(%r{metadata\.json}).and_return(true)
       allow(builder).to receive(:file_readable?).with(%r{metadata\.json}).and_return(true)
@@ -98,7 +98,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
   describe '#stage_module_in_build_dir' do
     let(:module_source) { File.join(root_dir, 'tmp', 'my-module') }
 
-    before(:each) do
+    before do
       require 'pathspec'
       allow(builder).to receive(:ignored_files).and_return(PathSpec.new("/spec/\n"))
       require 'find'
@@ -109,7 +109,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       allow(builder).to receive(:copy_mtime).with(module_source)
     end
 
-    after(:each) do
+    after do
       builder.stage_module_in_build_dir
     end
 
@@ -146,7 +146,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     let(:path_in_build_dir) { File.join(module_source, 'pkg', release_name, 'test') }
     let(:release_name) { 'my-module-0.0.1' }
 
-    before(:each) do
+    before do
       builder.release_name = release_name
     end
 
@@ -156,7 +156,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
           File.join(module_source, relative_path).force_encoding(Encoding.find('filesystem')).encode('utf-8', invalid: :replace)
         end
 
-        before(:each) do
+        before do
           allow(builder).to receive(:file_directory?).with(path).and_return(true)
           allow(builder).to receive(:file_symlink?).with(path).and_return(false)
           allow(builder).to receive(:fileutils_cp).with(path, anything, anything).and_return(true)
@@ -174,7 +174,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     end
 
     context 'when the path is a directory' do
-      before(:each) do
+      before do
         allow(builder).to receive(:file_directory?).with(path_to_stage).and_return(true)
         allow(builder).to receive(:file_stat).with(path_to_stage).and_return(instance_double(File::Stat, mode: 0o100755))
       end
@@ -186,7 +186,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     end
 
     context 'when the path is a symlink' do
-      before(:each) do
+      before do
         allow(builder).to receive(:file_directory?).with(path_to_stage).and_return(false)
         allow(builder).to receive(:file_symlink?).with(path_to_stage).and_return(true)
       end
@@ -200,7 +200,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     end
 
     context 'when the path is a regular file' do
-      before(:each) do
+      before do
         allow(builder).to receive(:file_directory?).with(path_to_stage).and_return(false)
         allow(builder).to receive(:file_symlink?).with(path_to_stage).and_return(false)
       end
@@ -279,7 +279,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     end
     let(:module_source) { File.join(root_dir, 'tmp', 'my-module') }
 
-    before(:each) do
+    before do
       require 'pathspec'
       allow(builder).to receive(:ignored_files).and_return(PathSpec.new(ignore_patterns.join("\n")))
     end
@@ -310,7 +310,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     end
     let(:available_files) { [] }
 
-    before(:each) do
+    before do
       available_files.each do |file|
         file_path = File.join(module_source, file)
 
@@ -360,13 +360,13 @@ RSpec.describe Puppet::Modulebuilder::Builder do
 
     let(:module_source) { File.join(root_dir, 'tmp', 'my-module') }
 
-    before(:each) do
+    before do
       require 'pathspec'
       allow(File).to receive(:realdirpath) { |path| path }
     end
 
     context 'when no ignore file is present in the module' do
-      before(:each) do
+      before do
         allow(builder).to receive(:ignore_file).and_return(nil)
       end
 
@@ -378,7 +378,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     end
 
     context 'when an ignore file is present in the module' do
-      before(:each) do
+      before do
         ignore_file_path = File.join(module_source, '.pdkignore')
         ignore_file_content = "/vendor/\n"
 
