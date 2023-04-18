@@ -32,4 +32,7 @@ group :development do
   gem 'simplecov'
   gem 'simplecov-console'
 
+
+  # Required for testing on Windows
+  gem 'ffi', :platforms => [:x64_mingw]
 end
