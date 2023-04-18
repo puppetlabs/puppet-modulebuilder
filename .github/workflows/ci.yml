@@ -45,6 +45,7 @@ jobs:
         runs_on:
           - "ubuntu-latest"
           - "windows-latest"
+    name: "acceptance (${{ matrix.runs_on }} ruby ${{ matrix.ruby_version }} | puppet ${{matrix.puppet_gem_version}})"
     uses: "puppetlabs/cat-github-actions/.github/workflows/gem_acceptance.yml@main"
     secrets: "inherit"
     with:
