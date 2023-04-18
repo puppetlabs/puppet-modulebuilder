@@ -19,7 +19,7 @@ module Puppet::Modulebuilder
     attr_reader :destination, :logger
 
     def initialize(source, destination = nil, logger = nil)
-      raise ArgumentError, 'logger is expected to be nil or a Logger. Got %{klass}' % { klass: logger.class } unless logger.nil? || logger.is_a?(Logger)
+      raise ArgumentError, format('logger is expected to be nil or a Logger. Got %{klass}', klass: logger.class) unless logger.nil? || logger.is_a?(Logger)
 
       @source_validated = false
       @source = source
@@ -119,7 +119,7 @@ module Puppet::Modulebuilder
           fileutils_cp(path, dest_path, preserve: true)
         end
       rescue ArgumentError => e
-        raise '%{message} Rename the file or exclude it from the package by adding it to the .pdkignore file in your module.' % { message: e.message }
+        raise format('%{message} Rename the file or exclude it from the package by adding it to the .pdkignore file in your module.', message: e.message)
       end
     end
 
@@ -158,10 +158,8 @@ module Puppet::Modulebuilder
       symlink_path = Pathname.new(path)
       module_path = Pathname.new(source)
 
-      logger.warn 'Symlinks in modules are not supported and will not be included in the package. Please investigate symlink %{from} -> %{to}.' % {
-        from: symlink_path.relative_path_from(module_path),
-        to: symlink_path.realpath.relative_path_from(module_path),
-      }
+      logger.warn format('Symlinks in modules are not supported and will not be included in the package. Please investigate symlink %{from} -> %{to}.',
+                         from: symlink_path.relative_path_from(module_path), to: symlink_path.realpath.relative_path_from(module_path))
     end
 
     # Select the most appropriate ignore file in the module directory.
@@ -194,8 +192,8 @@ module Puppet::Modulebuilder
     def validate_path_encoding!(path)
       return unless %r{[^\x00-\x7F]}.match?(path)
 
-      raise ArgumentError, "'%{path}' can only include ASCII characters in its path or " \
-                           'filename in order to be compatible with a wide range of hosts.' % { path: path }
+      raise ArgumentError, format("'%{path}' can only include ASCII characters in its path or " \
+                                  'filename in order to be compatible with a wide range of hosts.', path: path)
     end
 
     # Creates a gzip compressed tarball of the build directory.
@@ -228,10 +226,7 @@ module Puppet::Modulebuilder
             entry_meta[:mode] = orig_mode | min_mode
 
             if entry_meta[:mode] != orig_mode
-              logger.debug('Updated permissions of packaged \'%{entry}\' to %{new_mode}' % {
-                entry: entry,
-                new_mode: (entry_meta[:mode] & 0o7777).to_s(8),
-              })
+              logger.debug(format('Updated permissions of packaged \'%{entry}\' to %{new_mode}', entry: entry, new_mode: (entry_meta[:mode] & 0o7777).to_s(8)))
             end
 
             Minitar.pack_file(entry_meta, tar)
@@ -294,18 +289,18 @@ module Puppet::Modulebuilder
       metadata_json_path = File.join(source, 'metadata.json')
 
       unless file_exists?(metadata_json_path)
-        raise ArgumentError, "'%{file}' does not exist or is not a file." % { file: metadata_json_path }
+        raise ArgumentError, format("'%{file}' does not exist or is not a file.", file: metadata_json_path)
       end
 
       unless file_readable?(metadata_json_path)
-        raise ArgumentError, "Unable to open '%{file}' for reading." % { file: metadata_json_path }
+        raise ArgumentError, format("Unable to open '%{file}' for reading.", file: metadata_json_path)
       end
 
       require 'json'
       begin
         @metadata = JSON.parse(read_file(metadata_json_path))
       rescue JSON::JSONError => e
-        raise ArgumentError, 'Invalid JSON in metadata.json: %{msg}' % { msg: e.message }
+        raise ArgumentError, format('Invalid JSON in metadata.json: %{msg}', msg: e.message)
       end
       @metadata.freeze
     end
@@ -359,9 +354,7 @@ module Puppet::Modulebuilder
     # @return [nil]
     def validate_ustar_path!(path)
       if path.bytesize > 256
-        raise ArgumentError, "The path '%{path}' is longer than 256 bytes." % {
-          path: path,
-        }
+        raise ArgumentError, format("The path '%{path}' is longer than 256 bytes.", path: path)
       end
 
       if path.bytesize <= 100
@@ -385,9 +378,9 @@ module Puppet::Modulebuilder
       return unless path.bytesize > 100 || prefix.bytesize > 155
 
       raise ArgumentError, \
-            "'%{path}' could not be split at a directory separator into two " \
-            'parts, the first having a maximum length of 155 bytes and the ' \
-            'second having a maximum length of 100 bytes.' % { path: path }
+            format("'%{path}' could not be split at a directory separator into two " \
+                   'parts, the first having a maximum length of 155 bytes and the ' \
+                   'second having a maximum length of 100 bytes.', path: path)
     end
 
     private
@@ -395,7 +388,7 @@ module Puppet::Modulebuilder
     # Validates that source is able to be built
     def validate_source!
       unless file_directory?(@source) && file_readable?(@source)
-        raise ArgumentError, "Module source '%{source}' does not exist as a directory is or is not readable" % { source: @source }
+        raise ArgumentError, format("Module source '%{source}' does not exist as a directory is or is not readable", source: @source)
       end
 
       @source_validated = true
