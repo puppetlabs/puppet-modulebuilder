@@ -21,9 +21,9 @@ RSpec.describe Puppet::Modulebuilder::Builder do
   shared_context 'with mock metadata' do |metadata_content|
     before do
       content = metadata_content.nil? ? "{\"name\": \"my-module\",\n\"version\": \"0.1.0\"}" : metadata_content
-      allow(builder).to receive(:file_exists?).with(%r{metadata\.json}).and_return(true)
-      allow(builder).to receive(:file_readable?).with(%r{metadata\.json}).and_return(true)
-      allow(builder).to receive(:read_file).with(%r{metadata\.json}).and_return(content)
+      allow(builder).to receive(:file_exists?).with(/metadata\.json/).and_return(true)
+      allow(builder).to receive(:file_readable?).with(/metadata\.json/).and_return(true)
+      allow(builder).to receive(:read_file).with(/metadata\.json/).and_return(content)
     end
   end
 
@@ -31,13 +31,13 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     context 'when the source does not exist' do
       it do
         allow(builder).to receive(:file_directory?).with(module_source).and_return(false)
-        expect { builder.source }.to raise_error(ArgumentError, %r{does not exist})
+        expect { builder.source }.to raise_error(ArgumentError, /does not exist/)
       end
     end
 
     context 'with an invalid logger' do
       it do
-        expect { described_class.new(module_source, module_dest, [123]) }.to raise_error(ArgumentError, %r{logger is expected to})
+        expect { described_class.new(module_source, module_dest, [123]) }.to raise_error(ArgumentError, /logger is expected to/)
       end
     end
 
@@ -163,7 +163,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         it do
           expect do
             builder.stage_path(path)
-          end.to raise_error(ArgumentError, %r{can only include ASCII characters})
+          end.to raise_error(ArgumentError, /can only include ASCII characters/)
         end
       end
 
@@ -214,7 +214,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         it do
           expect do
             builder.stage_path(path_to_stage)
-          end.to raise_error(RuntimeError, %r{longer than 256.*Rename the file or exclude it from the package})
+          end.to raise_error(RuntimeError, /longer than 256.*Rename the file or exclude it from the package/)
         end
       end
     end
@@ -230,11 +230,11 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     ]
 
     bad_paths = {
-      File.join('a' * 152, 'b' * 11, 'c' * 93) => %r{longer than 256}i,
-      File.join('a' * 152, 'b' * 10, 'c' * 92) => %r{could not be split}i,
-      File.join('a' * 162, 'b' * 10) => %r{could not be split}i,
-      File.join('a' * 10, 'b' * 110) => %r{could not be split}i,
-      'a' * 114 => %r{could not be split}i,
+      File.join('a' * 152, 'b' * 11, 'c' * 93) => /longer than 256/i,
+      File.join('a' * 152, 'b' * 10, 'c' * 92) => /could not be split/i,
+      File.join('a' * 162, 'b' * 10) => /could not be split/i,
+      File.join('a' * 10, 'b' * 110) => /could not be split/i,
+      'a' * 114 => /could not be split/i,
     }
 
     good_paths.each do |path|
@@ -263,7 +263,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       it do
         expect do
           builder.validate_path_encoding!(File.join('path', "\330\271to", 'file'))
-        end.to raise_error(ArgumentError, %r{can only include ASCII characters})
+        end.to raise_error(ArgumentError, /can only include ASCII characters/)
       end
     end
   end
