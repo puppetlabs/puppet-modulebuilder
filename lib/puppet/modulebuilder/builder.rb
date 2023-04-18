@@ -252,9 +252,7 @@ module Puppet::Modulebuilder
                       PathSpec.new(read_file(ignore_file, open_args: 'rb:UTF-8'))
                     end
 
-          if File.realdirpath(destination).start_with?(File.realdirpath(source))
-            ignored = ignored.add("\/#{File.basename(destination)}\/")
-          end
+          ignored = ignored.add("\/#{File.basename(destination)}\/") if File.realdirpath(destination).start_with?(File.realdirpath(source))
 
           DEFAULT_IGNORED.each { |r| ignored.add(r) }
 
@@ -288,13 +286,9 @@ module Puppet::Modulebuilder
 
       metadata_json_path = File.join(source, 'metadata.json')
 
-      unless file_exists?(metadata_json_path)
-        raise ArgumentError, format("'%<file>s' does not exist or is not a file.", file: metadata_json_path)
-      end
+      raise ArgumentError, format("'%<file>s' does not exist or is not a file.", file: metadata_json_path) unless file_exists?(metadata_json_path)
 
-      unless file_readable?(metadata_json_path)
-        raise ArgumentError, format("Unable to open '%<file>s' for reading.", file: metadata_json_path)
-      end
+      raise ArgumentError, format("Unable to open '%<file>s' for reading.", file: metadata_json_path) unless file_readable?(metadata_json_path)
 
       require 'json'
       begin
@@ -353,9 +347,7 @@ module Puppet::Modulebuilder
     #
     # @return [nil]
     def validate_ustar_path!(path)
-      if path.bytesize > 256
-        raise ArgumentError, format("The path '%<path>s' is longer than 256 bytes.", path: path)
-      end
+      raise ArgumentError, format("The path '%<path>s' is longer than 256 bytes.", path: path) if path.bytesize > 256
 
       if path.bytesize <= 100
         prefix = ''

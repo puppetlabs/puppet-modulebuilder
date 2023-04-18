@@ -103,9 +103,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       allow(builder).to receive(:ignored_files).and_return(PathSpec.new("/spec/\n"))
       require 'find'
       allow(Find).to receive(:find).with(module_source).and_yield(found_file)
-      if found_file != module_source
-        allow(builder).to receive(:file_directory?).with(found_file).and_return(false)
-      end
+      allow(builder).to receive(:file_directory?).with(found_file).and_return(false) if found_file != module_source
       allow(builder).to receive(:copy_mtime).with(module_source)
     end
 
