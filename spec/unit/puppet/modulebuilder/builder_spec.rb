@@ -334,21 +334,21 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       let(:available_files) { ['.gitignore'] }
 
       it 'returns the path to the .gitignore file' do
-        is_expected.to eq(File.join(module_source, '.gitignore'))
+        expect(subject).to eq(File.join(module_source, '.gitignore'))
       end
 
       context 'and .pmtignore is present' do
         let(:available_files) { ['.gitignore', '.pmtignore'] }
 
         it 'returns the path to the .pmtignore file' do
-          is_expected.to eq(File.join(module_source, '.pmtignore'))
+          expect(subject).to eq(File.join(module_source, '.pmtignore'))
         end
 
         context 'and .pdkignore is present' do
           let(:available_files) { possible_files }
 
           it 'returns the path to the .pdkignore file' do
-            is_expected.to eq(File.join(module_source, '.pdkignore'))
+            expect(subject).to eq(File.join(module_source, '.pdkignore'))
           end
         end
       end
@@ -371,9 +371,9 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       end
 
       it 'returns a PathSpec object with the target dir' do
-        is_expected.to be_a(PathSpec)
-        is_expected.not_to be_empty
-        is_expected.to match('pkg/')
+        expect(subject).to be_a(PathSpec)
+        expect(subject).not_to be_empty
+        expect(subject).to match('pkg/')
       end
     end
 
@@ -387,8 +387,8 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       end
 
       it 'returns a PathSpec object populated by the ignore file' do
-        is_expected.to be_a(PathSpec)
-        is_expected.to have_attributes(specs: array_including(an_instance_of(PathSpec::GitIgnoreSpec)))
+        expect(subject).to be_a(PathSpec)
+        expect(subject).to have_attributes(specs: array_including(an_instance_of(PathSpec::GitIgnoreSpec)))
       end
     end
   end
