@@ -13,7 +13,7 @@ module Puppet::Modulebuilder
       '/checksums.json',
       '/REVISION',
       '/spec/fixtures/modules/',
-      '/vendor/',
+      '/vendor/'
     ].freeze
 
     attr_reader :destination, :logger
@@ -173,7 +173,7 @@ module Puppet::Modulebuilder
       @ignore_file ||= [
         File.join(source, '.pdkignore'),
         File.join(source, '.pmtignore'),
-        File.join(source, '.gitignore'),
+        File.join(source, '.gitignore')
       ].find { |file| file_exists?(file) && file_readable?(file) }
     end
 
@@ -321,7 +321,7 @@ module Puppet::Modulebuilder
     def release_name
       @release_name ||= [
         metadata['name'],
-        metadata['version'],
+        metadata['version']
       ].join('-')
     end
 
