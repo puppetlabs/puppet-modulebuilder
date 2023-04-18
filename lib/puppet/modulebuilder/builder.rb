@@ -19,7 +19,11 @@ module Puppet::Modulebuilder
     attr_reader :destination, :logger
 
     def initialize(source, destination = nil, logger = nil)
-      raise ArgumentError, format('logger is expected to be nil or a Logger. Got %<klass>s', klass: logger.class) unless logger.nil? || logger.is_a?(Logger)
+      unless logger.nil? || logger.is_a?(Logger)
+        raise ArgumentError,
+              format('logger is expected to be nil or a Logger. Got %<klass>s',
+                     klass: logger.class)
+      end
 
       @source_validated = false
       @source = source
@@ -119,7 +123,9 @@ module Puppet::Modulebuilder
           fileutils_cp(path, dest_path, preserve: true)
         end
       rescue ArgumentError => e
-        raise format('%<message>s Rename the file or exclude it from the package by adding it to the .pdkignore file in your module.', message: e.message)
+        raise format(
+          '%<message>s Rename the file or exclude it from the package by adding it to the .pdkignore file in your module.', message: e.message
+        )
       end
     end
 
@@ -226,7 +232,8 @@ module Puppet::Modulebuilder
             entry_meta[:mode] = orig_mode | min_mode
 
             if entry_meta[:mode] != orig_mode
-              logger.debug(format('Updated permissions of packaged \'%<entry>s\' to %<new_mode>s', entry: entry, new_mode: (entry_meta[:mode] & 0o7777).to_s(8)))
+              logger.debug(format('Updated permissions of packaged \'%<entry>s\' to %<new_mode>s', entry: entry,
+                                                                                                   new_mode: (entry_meta[:mode] & 0o7777).to_s(8)))
             end
 
             Minitar.pack_file(entry_meta, tar)
@@ -252,7 +259,9 @@ module Puppet::Modulebuilder
                       PathSpec.new(read_file(ignore_file, open_args: 'rb:UTF-8'))
                     end
 
-          ignored = ignored.add("/#{File.basename(destination)}/") if File.realdirpath(destination).start_with?(File.realdirpath(source))
+          if File.realdirpath(destination).start_with?(File.realdirpath(source))
+            ignored = ignored.add("/#{File.basename(destination)}/")
+          end
 
           DEFAULT_IGNORED.each { |r| ignored.add(r) }
 
@@ -286,9 +295,17 @@ module Puppet::Modulebuilder
 
       metadata_json_path = File.join(source, 'metadata.json')
 
-      raise ArgumentError, format("'%<file>s' does not exist or is not a file.", file: metadata_json_path) unless file_exists?(metadata_json_path)
+      unless file_exists?(metadata_json_path)
+        raise ArgumentError,
+              format("'%<file>s' does not exist or is not a file.",
+                     file: metadata_json_path)
+      end
 
-      raise ArgumentError, format("Unable to open '%<file>s' for reading.", file: metadata_json_path) unless file_readable?(metadata_json_path)
+      unless file_readable?(metadata_json_path)
+        raise ArgumentError,
+              format("Unable to open '%<file>s' for reading.",
+                     file: metadata_json_path)
+      end
 
       require 'json'
       begin
@@ -380,7 +397,8 @@ module Puppet::Modulebuilder
     # Validates that source is able to be built
     def validate_source!
       unless file_directory?(@source) && file_readable?(@source)
-        raise ArgumentError, format("Module source '%<source>s' does not exist as a directory is or is not readable", source: @source)
+        raise ArgumentError,
+              format("Module source '%<source>s' does not exist as a directory is or is not readable", source: @source)
       end
 
       @source_validated = true

@@ -37,7 +37,9 @@ RSpec.describe Puppet::Modulebuilder::Builder do
 
     context 'with an invalid logger' do
       it do
-        expect { described_class.new(module_source, module_dest, [123]) }.to raise_error(ArgumentError, /logger is expected to/)
+        expect do
+          described_class.new(module_source, module_dest, [123])
+        end.to raise_error(ArgumentError, /logger is expected to/)
       end
     end
 
@@ -151,7 +153,8 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     context 'when the path contains non-ASCII characters' do
       RSpec.shared_examples 'a failing path' do |relative_path|
         let(:path) do
-          File.join(module_source, relative_path).force_encoding(Encoding.find('filesystem')).encode('utf-8', invalid: :replace)
+          File.join(module_source, relative_path).force_encoding(Encoding.find('filesystem')).encode('utf-8',
+                                                                                                     invalid: :replace)
         end
 
         before do
@@ -174,7 +177,8 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     context 'when the path is a directory' do
       before do
         allow(builder).to receive(:file_directory?).with(path_to_stage).and_return(true)
-        allow(builder).to receive(:file_stat).with(path_to_stage).and_return(instance_double(File::Stat, mode: 0o100755))
+        allow(builder).to receive(:file_stat).with(path_to_stage).and_return(instance_double(File::Stat,
+                                                                                             mode: 0o100755))
       end
 
       it 'creates the directory in the build directory' do
