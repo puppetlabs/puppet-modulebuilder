@@ -163,9 +163,9 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         end
 
         it do
-          expect {
+          expect do
             builder.stage_path(path)
-          }.to raise_error(ArgumentError, %r{can only include ASCII characters})
+          end.to raise_error(ArgumentError, %r{can only include ASCII characters})
         end
       end
 
@@ -214,9 +214,9 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         let(:path_to_stage) { File.join(module_source, File.join(*['thing'] * 300)) }
 
         it do
-          expect {
+          expect do
             builder.stage_path(path_to_stage)
-          }.to raise_error(RuntimeError, %r{longer than 256.*Rename the file or exclude it from the package})
+          end.to raise_error(RuntimeError, %r{longer than 256.*Rename the file or exclude it from the package})
         end
       end
     end
@@ -255,17 +255,17 @@ RSpec.describe Puppet::Modulebuilder::Builder do
   describe '#validate_path_encoding!' do
     context 'when passed a path containing only ASCII characters' do
       it do
-        expect {
+        expect do
           builder.validate_path_encoding!(File.join('path', 'to', 'file'))
-        }.not_to raise_error
+        end.not_to raise_error
       end
     end
 
     context 'when passed a path containing non-ASCII characters' do
       it do
-        expect {
+        expect do
           builder.validate_path_encoding!(File.join('path', "\330\271to", 'file'))
-        }.to raise_error(ArgumentError, %r{can only include ASCII characters})
+        end.to raise_error(ArgumentError, %r{can only include ASCII characters})
       end
     end
   end
