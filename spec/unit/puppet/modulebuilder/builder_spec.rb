@@ -234,7 +234,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       File.join('a' * 152, 'b' * 10, 'c' * 92) => /could not be split/i,
       File.join('a' * 162, 'b' * 10) => /could not be split/i,
       File.join('a' * 10, 'b' * 110) => /could not be split/i,
-      'a' * 114 => /could not be split/i,
+      'a' * 114 => /could not be split/i
     }
 
     good_paths.each do |path|
