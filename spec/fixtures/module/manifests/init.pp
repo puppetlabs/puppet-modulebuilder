@@ -41,10 +41,9 @@ class motd (
   Optional[String] $issue_net_content   = undef,
   String $windows_motd_title            = 'Message of the day',
 ) {
-
   if $template {
     if $content {
-        warning(translate('Both $template and $content parameters passed to motd, ignoring content'))
+      warning('Both $template and $content parameters passed to motd, ignoring content')
     }
     $motd_content = epp($template)
   } elsif $content {
@@ -55,7 +54,7 @@ class motd (
 
   if $issue_template {
     if $issue_content {
-        warning(translate('Both $issue_template and $issue_content parameters passed to motd, ignoring issue_content'))
+      warning('Both $issue_template and $issue_content parameters passed to motd, ignoring issue_content')
     }
     $_issue_content = epp($issue_template)
   } elsif $issue_content {
@@ -66,7 +65,7 @@ class motd (
 
   if $issue_net_template {
     if $issue_net_content {
-        warning(translate('Both $issue_net_template and $issue_net_content parameters passed to motd, ignoring issue_net_content'))
+      warning('Both $issue_net_template and $issue_net_content parameters passed to motd, ignoring issue_net_content')
     }
     $_issue_net_content = epp($issue_net_template)
   } elsif $issue_net_content {
@@ -96,14 +95,16 @@ class motd (
     mode  => $mode,
   }
 
-  if $facts['kernel'] in ['Linux', 'SunOS', 'FreeBSD', 'AIX']  {
-    file { '/etc/motd':
-      ensure  => file,
-      backup  => false,
-      content => $motd_content,
-    }
+  if $facts['kernel'] in ['Linux', 'SunOS', 'FreeBSD', 'AIX'] {
+    if $facts['kernel'] == 'FreeBSD' {
+      if versioncmp($facts['os']['release']['major'], '13') >= 0 {
+        $_motd_location = '/etc/motd.template'
+      } else {
+        $_motd_location = '/etc/motd'
+      }
+    } else {
+      $_motd_location = '/etc/motd'
 
-    if $facts['kernel'] != 'FreeBSD' {
       if $_issue_content {
         file { '/etc/issue':
           ensure  => file,
@@ -121,10 +122,16 @@ class motd (
       }
     }
 
-    if ($facts['osfamily'] == 'Debian') and ($dynamic_motd == false) {
-      if $facts['operatingsystem'] == 'Debian' and versioncmp($facts['operatingsystemmajrelease'], '7') > 0 {
+    file { $_motd_location:
+      ensure  => file,
+      backup  => false,
+      content => $motd_content,
+    }
+
+    if ($facts['os']['family'] == 'Debian') and ($dynamic_motd == false) {
+      if $facts['os']['name'] == 'Debian' and versioncmp($facts['os']['release']['major'], '7') > 0 {
         $_line_to_remove = 'session    optional     pam_motd.so  motd=/run/motd.dynamic'
-      } elsif $facts['operatingsystem'] == 'Ubuntu' and versioncmp($facts['operatingsystemmajrelease'], '16.00') > 0 {
+      } elsif $facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['major'], '16.00') > 0 {
         $_line_to_remove = 'session    optional     pam_motd.so  motd=/run/motd.dynamic'
       } else {
         $_line_to_remove = 'session    optional     pam_motd.so  motd=/run/motd.dynamic noupdate'

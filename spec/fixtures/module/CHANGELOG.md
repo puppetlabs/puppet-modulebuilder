@@ -2,15 +2,126 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.0.0](https://github.com/puppetlabs/puppetlabs-motd/tree/v7.0.0) (2023-04-05)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-motd/compare/v6.3.0...v7.0.0)
+
+### Changed
+
+- \(Cont 787\) Add Support for Puppet 8 / Drop Support for Puppet 6 [\#472](https://github.com/puppetlabs/puppetlabs-motd/pull/472) ([david22swan](https://github.com/david22swan))
+
+### Fixed
+
+- pdksync - \(CONT-189\) Remove support for RedHat6 / OracleLinux6 / Scientific6 [\#456](https://github.com/puppetlabs/puppetlabs-motd/pull/456) ([david22swan](https://github.com/david22swan))
+- pdksync - \(CONT-130\) - Dropping Support for Debian 9 [\#450](https://github.com/puppetlabs/puppetlabs-motd/pull/450) ([jordanbreen28](https://github.com/jordanbreen28))
+
+## [v6.3.0](https://github.com/puppetlabs/puppetlabs-motd/tree/v6.3.0) (2022-10-03)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-motd/compare/v6.2.0...v6.3.0)
+
+### Added
+
+- pdksync - \(GH-cat-11\) Certify Support for Ubuntu 22.04 [\#447](https://github.com/puppetlabs/puppetlabs-motd/pull/447) ([david22swan](https://github.com/david22swan))
+- pdksync - \(GH-cat-12\) Add Support for Redhat 9 [\#446](https://github.com/puppetlabs/puppetlabs-motd/pull/446) ([david22swan](https://github.com/david22swan))
+
+### Fixed
+
+- \(MAINT\) Dropped support for Windows Server 2008 R2 and FreeBSD [\#448](https://github.com/puppetlabs/puppetlabs-motd/pull/448) ([jordanbreen28](https://github.com/jordanbreen28))
+
+## [v6.2.0](https://github.com/puppetlabs/puppetlabs-motd/tree/v6.2.0) (2022-05-30)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-motd/compare/v6.1.0...v6.2.0)
+
+### Added
+
+- Update motd location for FreeBSD 13 and above [\#431](https://github.com/puppetlabs/puppetlabs-motd/pull/431) ([Scnaeg](https://github.com/Scnaeg))
+- pdksync - \(IAC-1753\) - Add Support for AlmaLinux 8 [\#428](https://github.com/puppetlabs/puppetlabs-motd/pull/428) ([david22swan](https://github.com/david22swan))
+
+### Fixed
+
+- pdksync - \(GH-iac-334\) Remove Support for Ubuntu 16.04 [\#433](https://github.com/puppetlabs/puppetlabs-motd/pull/433) ([david22swan](https://github.com/david22swan))
+- pdksync - \(IAC-1787\) Remove Support for CentOS 6 [\#430](https://github.com/puppetlabs/puppetlabs-motd/pull/430) ([david22swan](https://github.com/david22swan))
+- pdksync - \(IAC-1598\) - Remove Support for Debian 8 [\#426](https://github.com/puppetlabs/puppetlabs-motd/pull/426) ([david22swan](https://github.com/david22swan))
+
+## [v6.1.0](https://github.com/puppetlabs/puppetlabs-motd/tree/v6.1.0) (2021-08-26)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-motd/compare/v6.0.0...v6.1.0)
+
+### Added
+
+- pdksync - \(IAC-1751\) - Add Support for Rocky 8 [\#427](https://github.com/puppetlabs/puppetlabs-motd/pull/427) ([david22swan](https://github.com/david22swan))
+- pdksync - \(IAC-1709\) - Add Support for Debian 11 [\#420](https://github.com/puppetlabs/puppetlabs-motd/pull/420) ([david22swan](https://github.com/david22swan))
+
+### Fixed
+
+- \(IAC-1741\) Allow stdlib v8.0.0 [\#421](https://github.com/puppetlabs/puppetlabs-motd/pull/421) ([david22swan](https://github.com/david22swan))
+
+## [v6.0.0](https://github.com/puppetlabs/puppetlabs-motd/tree/v6.0.0) (2021-05-10)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-motd/compare/v5.0.0...v6.0.0)
+
+### Changed
+
+- Update metadata.json - remove ubuntu 14.04 [\#401](https://github.com/puppetlabs/puppetlabs-motd/pull/401) ([daianamezdrea](https://github.com/daianamezdrea))
+
+### Fixed
+
+- \(IAC-1497\) - Removal of unsupported `translate` dependency [\#404](https://github.com/puppetlabs/puppetlabs-motd/pull/404) ([david22swan](https://github.com/david22swan))
+
+## [v5.0.0](https://github.com/puppetlabs/puppetlabs-motd/tree/v5.0.0) (2021-03-01)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-motd/compare/v4.3.0...v5.0.0)
+
+### Changed
+
+- pdksync -  Remove SLES 11 support [\#399](https://github.com/puppetlabs/puppetlabs-motd/pull/399) ([sanfrancrisko](https://github.com/sanfrancrisko))
+- pdksync - Remove RHEL 5 family support [\#398](https://github.com/puppetlabs/puppetlabs-motd/pull/398) ([sanfrancrisko](https://github.com/sanfrancrisko))
+- pdksync - Remove Puppet 5 from testing and bump minimal version to 6.0.0 [\#394](https://github.com/puppetlabs/puppetlabs-motd/pull/394) ([carabasdaniel](https://github.com/carabasdaniel))
+
+## [v4.3.0](https://github.com/puppetlabs/puppetlabs-motd/tree/v4.3.0) (2020-12-14)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-motd/compare/v4.2.0...v4.3.0)
+
+### Added
+
+- pdksync - \(feat\) - Add support for Puppet 7 [\#369](https://github.com/puppetlabs/puppetlabs-motd/pull/369) ([daianamezdrea](https://github.com/daianamezdrea))
+
+## [v4.2.0](https://github.com/puppetlabs/puppetlabs-motd/tree/v4.2.0) (2020-08-20)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-motd/compare/v4.1.1...v4.2.0)
+
+### Added
+
+- \(IAC-974\) - Removal of inappropriate terminology [\#326](https://github.com/puppetlabs/puppetlabs-motd/pull/326) ([david22swan](https://github.com/david22swan))
+- pdksync - \(IAC-973\) - Update travis/appveyor to run on new default branch main [\#320](https://github.com/puppetlabs/puppetlabs-motd/pull/320) ([david22swan](https://github.com/david22swan))
+- \(IAC-746\) - Add ubuntu 20.04 support [\#309](https://github.com/puppetlabs/puppetlabs-motd/pull/309) ([david22swan](https://github.com/david22swan))
+
+### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+
+- Update json requirement from 2.3.0 to 2.3.1 [\#316](https://github.com/puppetlabs/puppetlabs-motd/pull/316) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Update json requirement from = 2.1.0 to 2.3.0 [\#306](https://github.com/puppetlabs/puppetlabs-motd/pull/306) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump github\_changelog\_generator from 20ee04ba1234e9e83eb2ffb5056e23d641c7a018 to 1.15.2 [\#305](https://github.com/puppetlabs/puppetlabs-motd/pull/305) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
+## [v4.1.1](https://github.com/puppetlabs/puppetlabs-motd/tree/v4.1.1) (2020-05-19)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-motd/compare/v4.1.0...v4.1.1)
+
+### Fixed
+
+- \(MAINT\) Ensure FreeBSD compatibility [\#271](https://github.com/puppetlabs/puppetlabs-motd/pull/271) ([dandrzejewski](https://github.com/dandrzejewski))
+
 ## [v4.1.0](https://github.com/puppetlabs/puppetlabs-motd/tree/v4.1.0) (2020-01-20)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-motd/compare/v4.0.0...v4.1.0)
 
 ### Added
 
-- pdksync - \(FM-8581\) - Debian 10 added to travis and provision file refactored [\#277](https://github.com/puppetlabs/puppetlabs-motd/pull/277) ([david22swan](https://github.com/david22swan))
-- pdksync - "MODULES-10242 Add ubuntu14 support back to the modules" [\#267](https://github.com/puppetlabs/puppetlabs-motd/pull/267) ([sheenaajay](https://github.com/sheenaajay))
+- \(MODULES-10242\) Add back support for Ubuntu 14.04 [\#267](https://github.com/puppetlabs/puppetlabs-motd/pull/267) ([sheenaajay](https://github.com/sheenaajay))
 - \(FM-8691\) - Addition of Support for CentOS 8 [\#264](https://github.com/puppetlabs/puppetlabs-motd/pull/264) ([david22swan](https://github.com/david22swan))
+
+### Fixed
+
+- \(MODULES-10387\) Raise lower bound for puppetlabs-registry dependency to 4.0.0 [\#276](https://github.com/puppetlabs/puppetlabs-motd/pull/276) ([daianamezdrea](https://github.com/daianamezdrea))
 
 ## [v4.0.0](https://github.com/puppetlabs/puppetlabs-motd/tree/v4.0.0) (2019-11-11)
 
@@ -204,4 +315,4 @@ It also includes documentation and testing improvements.
 ####Known Bugs
 
 
-\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
