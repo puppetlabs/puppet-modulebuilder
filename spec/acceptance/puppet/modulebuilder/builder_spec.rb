@@ -77,9 +77,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         require 'open3'
         output, status = Open3.capture2e("puppet module install --force --ignore-dependencies --target-dir #{extract_path} --verbose #{built_tarball}")
 
-        unless status.exitstatus.zero?
-          raise "Failed to install the module using Puppet. Exit code #{status.exitstatus}: #{output}"
-        end
+        raise "Failed to install the module using Puppet. Exit code #{status.exitstatus}: #{output}" unless status.exitstatus.zero?
         raise 'Failed to install the module using Puppet. Missing extract directory' if extracted_module_path.nil?
       end
 
