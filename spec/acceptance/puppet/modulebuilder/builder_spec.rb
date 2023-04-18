@@ -21,7 +21,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     end
 
     after(:each) do
-      FileUtils.rm_rf(tmp_dir) if Dir.exist?(tmp_dir)
+      FileUtils.rm_rf(tmp_dir)
     end
   end
 
@@ -78,7 +78,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       end
 
       after(:each) do
-        FileUtils.rm_rf(extract_path) if Dir.exist?(extract_path)
+        FileUtils.rm_rf(extract_path)
       end
 
       it 'expands the expected paths' do # This is expected
