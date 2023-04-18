@@ -1,49 +1,54 @@
-# Change log
+<!-- markdownlint-disable MD024 -->
+# Changelog
 
-All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
+All notable changes to this project will be documented in this file.
 
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v0.3.0](https://github.com/puppetlabs/puppet-modulebuilder/tree/v0.3.0) (2021-05-17)
+## [v0.4.0-rc.1](https://github.com/puppetlabs/puppet-modulebuilder/tree/v0.4.0-rc.1) - 2023-04-18
+
+[Full Changelog](https://github.com/puppetlabs/puppet-modulebuilder/compare/v0.3.0...v0.4.0-rc.1)
+
+### Changed
+- (CONT-881) Ruby 3 / Puppet 8 Support [#50](https://github.com/puppetlabs/puppet-modulebuilder/pull/50) ([chelnak](https://github.com/chelnak))
+
+## [v0.3.0](https://github.com/puppetlabs/puppet-modulebuilder/tree/v0.3.0) - 2021-05-17
 
 [Full Changelog](https://github.com/puppetlabs/puppet-modulebuilder/compare/v0.2.1...v0.3.0)
 
-**Implemented enhancements:**
+### Added
 
-- Refresh dependency matrix; drop ruby 2.3 and earlier [\#35](https://github.com/puppetlabs/puppet-modulebuilder/pull/35) ([DavidS](https://github.com/DavidS))
-- Use Puppet 7 in development on Ruby 2.7+ [\#32](https://github.com/puppetlabs/puppet-modulebuilder/pull/32) ([ekohl](https://github.com/ekohl))
-- Add a setter for release\_name [\#31](https://github.com/puppetlabs/puppet-modulebuilder/pull/31) ([ekohl](https://github.com/ekohl))
-- Preserve directory mtimes [\#27](https://github.com/puppetlabs/puppet-modulebuilder/pull/27) ([ekohl](https://github.com/ekohl))
-- Use match\_path instead of match\_paths [\#26](https://github.com/puppetlabs/puppet-modulebuilder/pull/26) ([ekohl](https://github.com/ekohl))
+- Use Puppet 7 in development on Ruby 2.7+ [#32](https://github.com/puppetlabs/puppet-modulebuilder/pull/32) ([ekohl](https://github.com/ekohl))
+- Add a setter for release_name [#31](https://github.com/puppetlabs/puppet-modulebuilder/pull/31) ([ekohl](https://github.com/ekohl))
+- Preserve directory mtimes [#27](https://github.com/puppetlabs/puppet-modulebuilder/pull/27) ([ekohl](https://github.com/ekohl))
+- Use match_path instead of match_paths [#26](https://github.com/puppetlabs/puppet-modulebuilder/pull/26) ([ekohl](https://github.com/ekohl))
 
-**Fixed bugs:**
+### Fixed
 
-- Use correct source variable when warning about symlinks [\#36](https://github.com/puppetlabs/puppet-modulebuilder/pull/36) ([DavidS](https://github.com/DavidS))
-- Ignore all hidden files in the root dir [\#29](https://github.com/puppetlabs/puppet-modulebuilder/pull/29) ([ekohl](https://github.com/ekohl))
+- Use correct source variable when warning about symlinks [#36](https://github.com/puppetlabs/puppet-modulebuilder/pull/36) ([DavidS](https://github.com/DavidS))
+- Ignore all hidden files in the root dir [#29](https://github.com/puppetlabs/puppet-modulebuilder/pull/29) ([ekohl](https://github.com/ekohl))
 
-## [v0.2.1](https://github.com/puppetlabs/puppet-modulebuilder/tree/v0.2.1) (2020-06-08)
+## [v0.2.1](https://github.com/puppetlabs/puppet-modulebuilder/tree/v0.2.1) - 2020-06-08
 
 [Full Changelog](https://github.com/puppetlabs/puppet-modulebuilder/compare/v0.2.0...v0.2.1)
 
-**Fixed bugs:**
+### Fixed
 
-- \(IAC-864\) fix symlinked source [\#23](https://github.com/puppetlabs/puppet-modulebuilder/pull/23) ([DavidS](https://github.com/DavidS))
-- \(IAC-859\) add Ruby 2.7 testing; address deprecation warnings [\#22](https://github.com/puppetlabs/puppet-modulebuilder/pull/22) ([DavidS](https://github.com/DavidS))
+- (IAC-864) fix symlinked source [#23](https://github.com/puppetlabs/puppet-modulebuilder/pull/23) ([DavidS](https://github.com/DavidS))
+- (IAC-859) add Ruby 2.7 testing; address deprecation warnings [#22](https://github.com/puppetlabs/puppet-modulebuilder/pull/22) ([DavidS](https://github.com/DavidS))
 
-## [v0.2.0](https://github.com/puppetlabs/puppet-modulebuilder/tree/v0.2.0) (2020-04-30)
+## [v0.2.0](https://github.com/puppetlabs/puppet-modulebuilder/tree/v0.2.0) - 2020-04-30
 
 [Full Changelog](https://github.com/puppetlabs/puppet-modulebuilder/compare/v0.1.0...v0.2.0)
 
-**Implemented enhancements:**
+### Added
 
-- Set defaults for Builder [\#11](https://github.com/puppetlabs/puppet-modulebuilder/pull/11) ([ekohl](https://github.com/ekohl))
+- Set defaults for Builder [#11](https://github.com/puppetlabs/puppet-modulebuilder/pull/11) ([ekohl](https://github.com/ekohl))
 
-**Fixed bugs:**
+### Fixed
 
-- Always ignore .git [\#15](https://github.com/puppetlabs/puppet-modulebuilder/pull/15) ([ekohl](https://github.com/ekohl))
+- Always ignore .git [#15](https://github.com/puppetlabs/puppet-modulebuilder/pull/15) ([ekohl](https://github.com/ekohl))
 
-## v0.1.0
+## [v0.1.0](https://github.com/puppetlabs/puppet-modulebuilder/tree/v0.1.0) - 2020-02-27
 
-This is the initial release of the project.
-
-
-\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
+[Full Changelog](https://github.com/puppetlabs/puppet-modulebuilder/compare/01ac316defabe60fb7d3c95ec2b219ad5e8e1591...v0.1.0)
