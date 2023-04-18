@@ -285,15 +285,15 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     end
 
     it 'returns false for paths not matched by the patterns' do
-      expect(builder.ignored_path?(File.join(module_source, 'bar'))).to be_falsey
+      expect(builder).not_to be_ignored_path(File.join(module_source, 'bar'))
     end
 
     it 'returns true for paths matched by the patterns' do
-      expect(builder.ignored_path?(File.join(module_source, 'foo'))).to be_truthy
+      expect(builder).to be_ignored_path(File.join(module_source, 'foo'))
     end
 
     it 'returns true for children of ignored parent directories' do
-      expect(builder.ignored_path?(File.join(module_source, 'vendor', 'test'))).to be_truthy
+      expect(builder).to be_ignored_path(File.join(module_source, 'vendor', 'test'))
     end
   end
 
