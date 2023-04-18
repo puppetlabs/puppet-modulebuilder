@@ -5,9 +5,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v0.4.0-rc.1](https://github.com/puppetlabs/puppet-modulebuilder/tree/v0.4.0-rc.1) - 2023-04-18
+## [v1.0.0-rc.1](https://github.com/puppetlabs/puppet-modulebuilder/tree/v1.0.0-rc.1) - 2023-04-18
 
-[Full Changelog](https://github.com/puppetlabs/puppet-modulebuilder/compare/v0.3.0...v0.4.0-rc.1)
+[Full Changelog](https://github.com/puppetlabs/puppet-modulebuilder/compare/v0.3.0...v1.0.0-rc.1)
 
 ### Changed
 - (CONT-881) Ruby 3 / Puppet 8 Support [#50](https://github.com/puppetlabs/puppet-modulebuilder/pull/50) ([chelnak](https://github.com/chelnak))
