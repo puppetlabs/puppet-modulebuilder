@@ -81,7 +81,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         FileUtils.rm_rf(extract_path) if Dir.exist?(extract_path)
       end
 
-      it 'expands the expected paths' do # rubocop:disable RSpec/MultipleExpectations This is expected
+      it 'expands the expected paths' do # This is expected
         # No development directories
         expect('/spec/*').to be_an_empty_glob
         expect('/.vscode/*').to be_an_empty_glob

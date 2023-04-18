@@ -195,7 +195,7 @@ module Puppet::Modulebuilder
       return unless path =~ %r{[^\x00-\x7F]}
 
       raise ArgumentError, "'%{path}' can only include ASCII characters in its path or " \
-        'filename in order to be compatible with a wide range of hosts.' % { path: path }
+                           'filename in order to be compatible with a wide range of hosts.' % { path: path }
     end
 
     # Creates a gzip compressed tarball of the build directory.
