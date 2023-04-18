@@ -5,40 +5,34 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in puppet-modulebuilder.gemspec
 gemspec
 
-group :development do
-  ruby_version = Gem::Version.new(RUBY_VERSION)
+def location_for(place_or_version, fake_version = nil)
+  git_url_regex = %r{\A(?<url>(https?|git)[:@][^#]*)(#(?<branch>.*))?}
+  file_url_regex = %r{\Afile:\/\/(?<path>.*)}
 
-  gem 'rake', '~> 12.0'
-  gem 'rspec', '~> 3.0'
-
-  gem 'rubocop', '= 1.6.1',                            require: false
-  gem 'rubocop-performance', '= 1.9.1',                require: false
-  gem 'rubocop-rspec', '= 2.0.1',                      require: false
-
-  gem 'codecov', '~> 0.1'
-  gem 'github_changelog_generator', '~> 1.15', require: false
-  gem 'simplecov', '~> 0.18'
-  gem 'simplecov-console', '~> 0.6'
-
-  puppet_version = if ruby_version >= Gem::Version.new('2.7.0')
-                     '~> 7.0'
-                   elsif ruby_version >= Gem::Version.new('2.5.0')
-                     '~> 6.0'
-                   else
-                     '~> 5.0'
-                   end
-
-  gem 'puppet', puppet_version
+  if place_or_version && (git_url = place_or_version.match(git_url_regex))
+    [fake_version, { git: git_url[:url], branch: git_url[:branch], require: false }].compact
+  elsif place_or_version && (file_url = place_or_version.match(file_url_regex))
+    ['>= 0', { path: File.expand_path(file_url[:path]), require: false }]
+  else
+    [place_or_version, { require: false }]
+  end
 end
 
-# Evaluate Gemfile.local and ~/.gemfile if they exist
-extra_gemfiles = [
-  "#{__FILE__}.local",
-  File.join(Dir.home, '.gemfile'),
-]
+group :development do
+  gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION'])
 
-extra_gemfiles.each do |gemfile|
-  if File.file?(gemfile) && File.readable?(gemfile)
-    eval(File.read(gemfile), binding) # rubocop:disable Security/Eval
-  end
+  gem 'rake'
+  gem 'rspec', '~> 3.1'
+
+  gem 'rubocop', '~> 1.48', require: false
+  gem 'rubocop-performance', '~> 1.16', require: false
+  gem 'rubocop-rspec', '~> 2.19', require: false
+
+  gem 'codecov'
+  gem 'simplecov'
+  gem 'simplecov-console'
+
+
+  # Required for testing on Windows
+  gem 'ffi', :platforms => [:x64_mingw]
 end

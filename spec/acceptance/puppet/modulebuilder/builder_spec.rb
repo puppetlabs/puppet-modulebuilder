@@ -11,7 +11,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     let(:module_source_actual) { File.join(tmp_dir, 'module') }
     let(:output_dir) { File.join(tmp_dir, 'pkg') }
 
-    before(:each) do
+    before do
       # Copy the module to the temporary directory
       FileUtils.cp_r(File.join(FIXTURES_DIR, 'module'), tmp_dir)
 
@@ -20,8 +20,8 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       FileUtils.ln_s(module_source_actual, module_source)
     end
 
-    after(:each) do
-      FileUtils.rm_rf(tmp_dir) if Dir.exist?(tmp_dir)
+    after do
+      FileUtils.rm_rf(tmp_dir)
     end
   end
 
@@ -65,23 +65,23 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         end
       end
 
-      before(:each) do
+      before do
         # Force the module to be built...
         built_tarball = tarball_name
 
         # Use puppet to "install" it...
         require 'open3'
-        output, status = Open3.capture2e("puppet module install --force --ignore-dependencies --target-dir #{extract_path} --verbose #{built_tarball}")
+        output, status = Open3.capture2e("bundle exec puppet module install --force --ignore-dependencies --target-dir #{extract_path} --verbose #{built_tarball}")
 
         raise "Failed to install the module using Puppet. Exit code #{status.exitstatus}: #{output}" unless status.exitstatus.zero?
         raise 'Failed to install the module using Puppet. Missing extract directory' if extracted_module_path.nil?
       end
 
-      after(:each) do
-        FileUtils.rm_rf(extract_path) if Dir.exist?(extract_path)
+      after do
+        FileUtils.rm_rf(extract_path)
       end
 
-      it 'expands the expected paths' do # rubocop:disable RSpec/MultipleExpectations This is expected
+      it 'expands the expected paths' do # This is expected
         # No development directories
         expect('/spec/*').to be_an_empty_glob
         expect('/.vscode/*').to be_an_empty_glob
