@@ -252,7 +252,7 @@ module Puppet::Modulebuilder
                       PathSpec.new(read_file(ignore_file, open_args: 'rb:UTF-8'))
                     end
 
-          ignored = ignored.add("\/#{File.basename(destination)}\/") if File.realdirpath(destination).start_with?(File.realdirpath(source))
+          ignored = ignored.add("/#{File.basename(destination)}/") if File.realdirpath(destination).start_with?(File.realdirpath(source))
 
           DEFAULT_IGNORED.each { |r| ignored.add(r) }
 
