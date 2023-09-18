@@ -19,6 +19,8 @@ The purpose of this tool is to take a given local module directory and compile i
 
 As part of this process any non-deliverable aspects of the module, parts of it related to the modules development or testing for example, are stripped away leaving only the documentation and the puppet/ruby code that is needed for the module to function.
 
+The parts of the module to be excluded are defined in a `.pdkignore`, `.pmtignore` or `.gitignore` file with the first one to be found in this given order being used. Any directories or files that are listed in the ignore file are then excluded, allowing the user to customize what is and what is not excluded.
+
 ## Usage
 
 This gem can be used in one of two ways, the first being to call on it directly as shown in the example below:
@@ -30,7 +32,7 @@ builder.build
 
 For conveniances sake the `puppet-modulebuilder` gem has been included within the `PDK` and as such can be called on to run against a module from within it using the build command as shown below:
 
-```ruby
+```bash
 pdk build
 ```
 
