@@ -1,6 +1,6 @@
 # Puppet::Modulebuilder
 
-[![Code Owners](https://img.shields.io/badge/owners-DevX--team-blue)](https://github.com/puppetlabs/pdk/blob/main/CODEOWNERS)
+[![Code Owners](https://img.shields.io/badge/owners-DevX--team-blue)](https://github.com/puppetlabs/puppet-modulebuilder/blob/main/CODEOWNERS)
 ![ci](https://github.com/puppetlabs/puppet-modulebuilder/actions/workflows/ci.yml/badge.svg)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/puppetlabs/puppet-modulebuilder)
 
