@@ -54,6 +54,10 @@ bundle exec rake 'litmus:install_module'
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/puppetlabs/puppet-modulebuilder.
 
+## License
+
+This codebase is licensed under Apache 2.0. However, the open source dependencies included in this codebase might be subject to other software licenses such as AGPL, GPL2.0, and MIT.
+
 ## Development
 
 To release a new version, simply run the `Release Prep` github action workflow, passing it the desired version, in order to generate a PR containing the necesary changes.
