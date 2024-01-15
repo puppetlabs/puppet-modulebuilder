@@ -1,16 +1,20 @@
 # frozen_string_literal: true
 
-if ENV['SIMPLECOV'] == 'yes'
+if ENV['COVERAGE'] == 'yes'
   begin
     require 'simplecov'
     require 'simplecov-console'
-    require 'codecov'
 
     SimpleCov.formatters = [
       SimpleCov::Formatter::HTMLFormatter,
-      SimpleCov::Formatter::Console,
-      SimpleCov::Formatter::Codecov
+      SimpleCov::Formatter::Console
     ]
+
+    if ENV['CI'] == 'true'
+      require 'codecov'
+      SimpleCov.formatters << SimpleCov::Formatter::Codecov
+    end
+
     SimpleCov.start do
       track_files 'lib/**/*.rb'
       add_filter '/spec'
@@ -21,14 +25,6 @@ if ENV['SIMPLECOV'] == 'yes'
 
       # do not track version file, as it is loaded before simplecov initialises and therefore is never gonna be tracked correctly
       add_filter 'lib/puppet/modulebuilder/version.rb'
-
-      # do not track gitignored files
-      # this adds about 4 seconds to the coverage check
-      # this could definitely be optimized
-      add_filter do |f|
-        # system returns true if exit status is 0, which with git-check-ignore means file is ignored
-        system("git check-ignore --quiet #{f.filename}")
-      end
     end
   rescue LoadError
     raise 'Add the simplecov, simplecov-console, codecov gems to Gemfile to enable this task'
