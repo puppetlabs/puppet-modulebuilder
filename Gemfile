@@ -28,7 +28,6 @@ group :development do
   gem 'rubocop-performance', '~> 1.16', require: false
   gem 'rubocop-rspec', '~> 2.19', require: false
 
-  gem 'codecov'
   gem 'simplecov'
   gem 'simplecov-console'
 
