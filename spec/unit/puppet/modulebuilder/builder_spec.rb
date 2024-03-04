@@ -30,8 +30,9 @@ RSpec.describe Puppet::Modulebuilder::Builder do
   describe '#initialize' do
     context 'when the source does not exist' do
       it do
-        allow(builder).to receive(:file_directory?).with(module_source).and_return(false)
-        expect { builder.source }.to raise_error(ArgumentError, /does not exist/)
+        result = builder
+        allow(result).to receive(:file_directory?).with(module_source).and_return(false)
+        expect { result.source }.to raise_error(ArgumentError, /does not exist/)
       end
     end
 
