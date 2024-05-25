@@ -18,8 +18,9 @@ jobs:
       fail-fast: false
       matrix:
         ruby_version:
-          - "2.7"
+          - "3.3"
           - "3.2"
+          - "3.1"
         include:
           - ruby-version: '2.7'
             puppet_gem_version: '~> 7.0'
@@ -42,8 +43,9 @@ jobs:
     strategy:
       matrix:
         ruby_version:
-          - "2.7"
+          - "3.3"
           - "3.2"
+          - "3.1"
         include:
           - ruby-version: '2.7'
             puppet_gem_version: '~> 7.0'
