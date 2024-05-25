@@ -7,3 +7,6 @@ inherit_gem:
 # Disabled
 Style/ClassAndModuleChildren:
   Enabled: false
+
+AllCops:
+  TargetRubyVersion: '3.1'
