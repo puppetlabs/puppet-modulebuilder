@@ -5,15 +5,29 @@ require 'logger'
 module Puppet::Modulebuilder
   # Class to build Puppet Modules from source
   class Builder
-    DEFAULT_IGNORED = [
+    # Due to the way how PathSpec generates the regular expression,
+    # `/*` doesn't match directories starting with a dot,
+    # so we need `/.*` as well.
+    IGNORED = [
+      '/**',
       '/.*',
-      '/pkg/',
-      '~*',
-      '/coverage',
-      '/checksums.json',
-      '/REVISION',
-      '/spec/fixtures/modules/',
-      '/vendor/',
+      '!/CHANGELOG*',
+      '!/LICENSE',
+      '!/README*',
+      '!/REFERENCE.md',
+      '!/bolt_plugin.json',
+      '!/data/**',
+      '!/docs/**',
+      '!/files/**',
+      '!/hiera.yaml',
+      '!/locales/**',
+      '!/manifests/**',
+      '!/metadata.json',
+      '!/plans/**',
+      '!/scripts/**',
+      '!/tasks/**',
+      '!/templates/**',
+      '!/types/**',
     ].freeze
 
     attr_reader :destination, :logger
@@ -168,21 +182,6 @@ module Puppet::Modulebuilder
                          from: symlink_path.relative_path_from(module_path), to: symlink_path.realpath.relative_path_from(module_path))
     end
 
-    # Select the most appropriate ignore file in the module directory.
-    #
-    # In order of preference, we first try `.pdkignore`, then `.pmtignore`
-    # and finally `.gitignore`.
-    #
-    # @return [String] The path to the file containing the patterns of file
-    #   paths to ignore.
-    def ignore_file
-      @ignore_file ||= [
-        File.join(source, '.pdkignore'),
-        File.join(source, '.pmtignore'),
-        File.join(source, '.gitignore'),
-      ].find { |file| file_exists?(file) && file_readable?(file) }
-    end
-
     # Checks if the path contains any non-ASCII characters.
     #
     # Java will throw an error when it encounters a path containing
@@ -251,20 +250,10 @@ module Puppet::Modulebuilder
     def ignored_files
       require 'pathspec'
 
-      @ignored_files ||=
-        begin
-          ignored = if ignore_file.nil?
-                      PathSpec.new
-                    else
-                      PathSpec.new(read_file(ignore_file, open_args: 'rb:UTF-8'))
-                    end
+      ignored = PathSpec.new(IGNORED)
+      ignored.add("/#{File.basename(destination)}/") if File.realdirpath(destination).start_with?(File.realdirpath(source))
 
-          ignored = ignored.add("/#{File.basename(destination)}/") if File.realdirpath(destination).start_with?(File.realdirpath(source))
-
-          DEFAULT_IGNORED.each { |r| ignored.add(r) }
-
-          ignored
-        end
+      ignored
     end
 
     # Create a temporary build directory where the files to be included in
