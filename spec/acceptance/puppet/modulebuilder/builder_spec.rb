@@ -52,7 +52,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         end
       end
 
-      RSpec::Matchers.define :be_identical_as_soource do
+      RSpec::Matchers.define :be_identical_as_source do
         match do |actual|
           @source = Dir.glob(actual, base: module_source)
           @extracted = Dir.glob(actual, base: extracted_module_path)
@@ -95,9 +95,9 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         expect('appveyor.yml').to be_an_empty_glob
 
         # Important Extracted files
-        expect('manifests/*').to be_identical_as_soource
-        expect('templates/*').to be_identical_as_soource
-        expect('lib/*').to be_identical_as_soource
+        expect('manifests/*').to be_identical_as_source
+        expect('templates/*').to be_identical_as_source
+        expect('lib/*').to be_identical_as_source
       end
     end
   end
