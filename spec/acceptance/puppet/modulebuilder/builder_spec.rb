@@ -39,23 +39,23 @@ RSpec.describe Puppet::Modulebuilder::Builder do
 
     context 'which is installed via Puppet' do
       let(:extract_path) { Dir.mktmpdir }
-      let(:extracted_module_path) { File.join(extract_path, Dir.entries(extract_path).reject { |p| %w[. ..].include?(p) }.first) }
+      let(:extracted_module_path) { Dir[File.join(extract_path, '*')].first }
 
       RSpec::Matchers.define :be_an_empty_glob do
         match do |actual|
-          Dir.glob(extracted_module_path + actual).empty?
+          @extracted = Dir.glob(actual, base: extracted_module_path)
+          @extracted.empty?
         end
 
         failure_message do |actual|
-          "expected that #{actual} would be empty but got #{Dir.glob(extracted_module_path + actual)}"
+          "expected that #{actual} would be empty but got #{@extracted}"
         end
       end
 
-      RSpec::Matchers.define :be_identical_as_soource do
+      RSpec::Matchers.define :be_identical_as_source do
         match do |actual|
-          # Dir.glob(..., base: xxx) does not work, so need to use a crude method to get the relative directory path
-          @source = Dir.glob(module_source + actual).map { |p| p.slice(module_source.length..-1) }
-          @extracted = Dir.glob(extracted_module_path + actual).map { |p| p.slice(extracted_module_path.length..-1) }
+          @source = Dir.glob(actual, base: module_source)
+          @extracted = Dir.glob(actual, base: extracted_module_path)
 
           @source == @extracted
         end
@@ -83,21 +83,21 @@ RSpec.describe Puppet::Modulebuilder::Builder do
 
       it 'expands the expected paths' do # This is expected
         # No development directories
-        expect('/spec/*').to be_an_empty_glob
-        expect('/.vscode/*').to be_an_empty_glob
-        expect('/tmp/*').to be_an_empty_glob
+        expect('spec/*').to be_an_empty_glob
+        expect('.vscode/*').to be_an_empty_glob
+        expect('tmp/*').to be_an_empty_glob
         # No development files
-        expect('/.fixtures').to be_an_empty_glob
-        expect('/.gitignore').to be_an_empty_glob
-        expect('/Rakefile').to be_an_empty_glob
+        expect('.fixtures').to be_an_empty_glob
+        expect('.gitignore').to be_an_empty_glob
+        expect('Rakefile').to be_an_empty_glob
         # No CI files
-        expect('/.travis.yml').to be_an_empty_glob
-        expect('/appveyor.yml').to be_an_empty_glob
+        expect('.travis.yml').to be_an_empty_glob
+        expect('appveyor.yml').to be_an_empty_glob
 
         # Important Extracted files
-        expect('/manifests/*').to be_identical_as_soource
-        expect('/templates/*').to be_identical_as_soource
-        expect('/lib/*').to be_identical_as_soource
+        expect('manifests/*').to be_identical_as_source
+        expect('templates/*').to be_identical_as_source
+        expect('lib/*').to be_identical_as_source
       end
     end
   end
