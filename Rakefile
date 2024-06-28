@@ -11,7 +11,7 @@ namespace :spec do
   desc 'Run RSpec code examples with coverage collection'
   task :coverage do
     ENV['COVERAGE'] = 'yes'
-      Rake::Task['spec'].execute
+    Rake::Task['spec'].execute
   end
 end
 
@@ -19,7 +19,7 @@ RSpec::Core::RakeTask.new(:acceptance) do |t|
   t.pattern = 'spec/acceptance/**/*_spec.rb'
 end
 
-task default: [:spec, :acceptance]
+task default: %i[spec acceptance]
 
 begin
   require 'voxpupuli/rubocop/rake'
