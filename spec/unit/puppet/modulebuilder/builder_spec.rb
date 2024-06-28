@@ -231,7 +231,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       File.join('a' * 151, *['qwer'] * 19, 'bla'),
       File.join('/', 'a' * 49, 'b' * 50),
       File.join('a' * 49, "#{'b' * 50}x"),
-      File.join("#{'a' * 49}x", 'b' * 50)
+      File.join("#{'a' * 49}x", 'b' * 50),
     ]
 
     bad_paths = {
@@ -239,7 +239,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       File.join('a' * 152, 'b' * 10, 'c' * 92) => /could not be split/i,
       File.join('a' * 162, 'b' * 10) => /could not be split/i,
       File.join('a' * 10, 'b' * 110) => /could not be split/i,
-      'a' * 114 => /could not be split/i
+      'a' * 114 => /could not be split/i,
     }
 
     good_paths.each do |path|
@@ -277,7 +277,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     let(:ignore_patterns) do
       [
         '/vendor/',
-        'foo'
+        'foo',
       ]
     end
     let(:module_source) { File.join(root_dir, 'tmp', 'my-module') }
@@ -308,7 +308,7 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       [
         '.pdkignore',
         '.pmtignore',
-        '.gitignore'
+        '.gitignore',
       ]
     end
     let(:available_files) { [] }

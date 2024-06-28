@@ -13,7 +13,7 @@ module Puppet::Modulebuilder
       '/checksums.json',
       '/REVISION',
       '/spec/fixtures/modules/',
-      '/vendor/'
+      '/vendor/',
     ].freeze
 
     attr_reader :destination, :logger
@@ -65,7 +65,7 @@ module Puppet::Modulebuilder
     def build_context
       {
         parent_dir: destination,
-        build_dir_name: release_name
+        build_dir_name: release_name,
       }.freeze
     end
 
@@ -179,7 +179,7 @@ module Puppet::Modulebuilder
       @ignore_file ||= [
         File.join(source, '.pdkignore'),
         File.join(source, '.pmtignore'),
-        File.join(source, '.gitignore')
+        File.join(source, '.gitignore'),
       ].find { |file| file_exists?(file) && file_readable?(file) }
     end
 
@@ -223,7 +223,7 @@ module Puppet::Modulebuilder
           tar = Minitar::Output.new(gz)
           Find.find(build_context[:build_dir_name]) do |entry|
             entry_meta = {
-              name: entry
+              name: entry,
             }
 
             orig_mode = File.stat(entry).mode
@@ -336,7 +336,7 @@ module Puppet::Modulebuilder
     def release_name
       @release_name ||= [
         metadata['name'],
-        metadata['version']
+        metadata['version'],
       ].join('-')
     end
 
