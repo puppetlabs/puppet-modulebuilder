@@ -21,3 +21,9 @@ RSpec::Core::RakeTask.new(:acceptance) do |t|
 end
 
 task default: [:spec, :acceptance]
+
+begin
+  require 'voxpupuli/rubocop/rake'
+rescue LoadError
+  # the voxpupuli-rubocop gem is optional
+end

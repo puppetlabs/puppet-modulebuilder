@@ -24,10 +24,6 @@ group :development do
   gem 'rake'
   gem 'rspec', '~> 3.1'
 
-  gem 'rubocop', '~> 1.64.0', require: false
-  gem 'rubocop-performance', '~> 1.16', require: false
-  gem 'rubocop-rspec', '~> 3.0', require: false
-
   gem 'simplecov'
   gem 'simplecov-console'
 
