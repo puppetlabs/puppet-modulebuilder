@@ -300,64 +300,6 @@ RSpec.describe Puppet::Modulebuilder::Builder do
     end
   end
 
-  describe '#ignore_file' do
-    subject { builder.ignore_file }
-
-    let(:module_source) { File.join(root_dir, 'tmp', 'my-module') }
-    let(:possible_files) do
-      [
-        '.pdkignore',
-        '.pmtignore',
-        '.gitignore',
-      ]
-    end
-    let(:available_files) { [] }
-
-    before do
-      available_files.each do |file|
-        file_path = File.join(module_source, file)
-
-        allow(builder).to receive(:file_exists?).with(file_path).and_return(true)
-        allow(builder).to receive(:file_readable?).with(file_path).and_return(true)
-      end
-
-      (possible_files - available_files).each do |file|
-        file_path = File.join(module_source, file)
-
-        allow(builder).to receive(:file_exists?).with(file_path).and_return(false)
-        allow(builder).to receive(:file_readable?).with(file_path).and_return(false)
-      end
-    end
-
-    context 'when none of the possible ignore files are present' do
-      it { is_expected.to be_nil }
-    end
-
-    context 'when .gitignore is present' do
-      let(:available_files) { ['.gitignore'] }
-
-      it 'returns the path to the .gitignore file' do
-        expect(subject).to eq(File.join(module_source, '.gitignore'))
-      end
-
-      context 'and .pmtignore is present' do
-        let(:available_files) { ['.gitignore', '.pmtignore'] }
-
-        it 'returns the path to the .pmtignore file' do
-          expect(subject).to eq(File.join(module_source, '.pmtignore'))
-        end
-
-        context 'and .pdkignore is present' do
-          let(:available_files) { possible_files }
-
-          it 'returns the path to the .pdkignore file' do
-            expect(subject).to eq(File.join(module_source, '.pdkignore'))
-          end
-        end
-      end
-    end
-  end
-
   describe '#ignored_files' do
     subject { builder.ignored_files }
 
