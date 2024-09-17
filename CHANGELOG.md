@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v2.0.0](https://github.com/puppetlabs/puppet-modulebuilder/tree/v2.0.0) - 2024-09-17
+
+[Full Changelog](https://github.com/puppetlabs/puppet-modulebuilder/compare/v1.1.0...v2.0.0)
+
+### Changed
+
+- Implement allowlist for puppet module content [#79](https://github.com/puppetlabs/puppet-modulebuilder/pull/79) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v1.1.0](https://github.com/puppetlabs/puppet-modulebuilder/tree/v1.1.0) - 2024-09-17
 
 [Full Changelog](https://github.com/puppetlabs/puppet-modulebuilder/compare/v1.0.0...v1.1.0)
