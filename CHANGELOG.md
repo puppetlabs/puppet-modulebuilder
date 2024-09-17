@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v1.1.0](https://github.com/puppetlabs/puppet-modulebuilder/tree/v1.1.0) - 2024-09-17
+
+[Full Changelog](https://github.com/puppetlabs/puppet-modulebuilder/compare/v1.0.0...v1.1.0)
+
+### Added
+
+- Use Dir.glob with base parameter in acceptance tests [#93](https://github.com/puppetlabs/puppet-modulebuilder/pull/93) ([ekohl](https://github.com/ekohl))
+
+### Fixed
+
+- (CAT-1688) Upgrade rubocop to `~> 1.50.0` [#70](https://github.com/puppetlabs/puppet-modulebuilder/pull/70) ([LukasAud](https://github.com/LukasAud))
+
 ## [v1.0.0](https://github.com/puppetlabs/puppet-modulebuilder/tree/v1.0.0) - 2023-04-25
 
 [Full Changelog](https://github.com/puppetlabs/puppet-modulebuilder/compare/v1.0.0.rc.1...v1.0.0)
@@ -14,6 +26,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppet-modulebuilder/compare/v0.3.0...v1.0.0.rc.1)
 
 ### Changed
+
 - (CONT-881) Ruby 3 / Puppet 8 Support [#50](https://github.com/puppetlabs/puppet-modulebuilder/pull/50) ([chelnak](https://github.com/chelnak))
 
 ## [v0.3.0](https://github.com/puppetlabs/puppet-modulebuilder/tree/v0.3.0) - 2021-05-17
