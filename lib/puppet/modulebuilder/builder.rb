@@ -202,7 +202,7 @@ module Puppet::Modulebuilder
       return unless /[^\x00-\x7F]/.match?(path)
 
       raise ArgumentError, format("'%<path>s' can only include ASCII characters in its path or " \
-                                  'filename in order to be compatible with a wide range of hosts.', path: path)
+                                  'filename in order to be compatible with a wide range of hosts.', path:)
     end
 
     # Creates a gzip compressed tarball of the build directory.
@@ -235,7 +235,7 @@ module Puppet::Modulebuilder
             entry_meta[:mode] = orig_mode | min_mode
 
             if entry_meta[:mode] != orig_mode
-              logger.debug(format('Updated permissions of packaged \'%<entry>s\' to %<new_mode>s', entry: entry,
+              logger.debug(format('Updated permissions of packaged \'%<entry>s\' to %<new_mode>s', entry:,
                                                                                                    new_mode: (entry_meta[:mode] & 0o7777).to_s(8)))
             end
 
@@ -355,7 +355,7 @@ module Puppet::Modulebuilder
     #
     # @return [nil]
     def validate_ustar_path!(path)
-      raise ArgumentError, format("The path '%<path>s' is longer than 256 bytes.", path: path) if path.bytesize > 256
+      raise ArgumentError, format("The path '%<path>s' is longer than 256 bytes.", path:) if path.bytesize > 256
 
       if path.bytesize <= 100
         prefix = ''
@@ -380,7 +380,7 @@ module Puppet::Modulebuilder
       raise ArgumentError, \
             format("'%<path>s' could not be split at a directory separator into two " \
                    'parts, the first having a maximum length of 155 bytes and the ' \
-                   'second having a maximum length of 100 bytes.', path: path)
+                   'second having a maximum length of 100 bytes.', path:)
     end
 
     private
