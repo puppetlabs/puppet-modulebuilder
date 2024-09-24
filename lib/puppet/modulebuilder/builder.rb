@@ -18,6 +18,8 @@ module Puppet::Modulebuilder
       '!/bolt_plugin.json',
       '!/data/**',
       '!/docs/**',
+      '!/examples/**',
+      '!/facts.d/**',
       '!/files/**',
       '!/functions/**',
       '!/hiera.yaml',
