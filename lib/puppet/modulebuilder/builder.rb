@@ -19,6 +19,7 @@ module Puppet::Modulebuilder
       '!/data/**',
       '!/docs/**',
       '!/files/**',
+      '!/functions/**',
       '!/hiera.yaml',
       '!/lib/**',
       '!/locales/**',
