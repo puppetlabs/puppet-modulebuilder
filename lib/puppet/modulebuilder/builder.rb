@@ -32,7 +32,6 @@ module Puppet::Modulebuilder
       '!/tasks/**',
       '!/templates/**',
       '!/types/**',
-      '!/tooling/**',
     ].freeze
 
     attr_reader :destination, :logger
