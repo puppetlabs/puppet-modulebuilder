@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'minitar', '~> 0.9'
   spec.add_runtime_dependency 'pathspec', '>= 0.2.1', '< 3.0.0'
 
-  spec.add_development_dependency 'voxpupuli-rubocop', '~> 2.8.0'
+  spec.add_development_dependency 'voxpupuli-rubocop', '~> 3.0.0'
 
   spec.required_ruby_version = Gem::Requirement.new('>= 2.7.0')
 end
