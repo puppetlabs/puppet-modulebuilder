@@ -29,4 +29,8 @@ group :development do
 
   # Required for testing on Windows
   gem 'ffi', platforms: [:x64_mingw]
+  # puppet-modulebuilder supports minitar 0.x and 1.x
+  # puppet 8.10.0 can use `tar` (the linux CLI tool) *or* minitar 0.x
+  # on windows, puppet 8.10 defaults to minitar
+  gem 'minitar', '~> 0.9', platforms: [:x64_mingw]
 end
