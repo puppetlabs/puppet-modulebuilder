@@ -339,8 +339,7 @@ module Puppet::Modulebuilder
     # header format.
     #
     # POSIX.1-2001 (which allows paths of infinite length) was adopted by GNU
-    # tar in 2004 and is supported by minitar 0.7 and above. Unfortunately
-    # much of the Puppet ecosystem still uses minitar 0.6.1.
+    # tar in 2004 and is supported by minitar 0.7 and above.
     #
     # POSIX.1-1998 tar format does not allow for paths greater than 256 bytes,
     # or paths that can't be split into a prefix of 155 bytes (max) and
