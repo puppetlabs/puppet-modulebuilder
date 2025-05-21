@@ -376,7 +376,7 @@ module Puppet::Modulebuilder
 
       return unless path.bytesize > 100 || prefix.bytesize > 155
 
-      raise ArgumentError, \
+      raise ArgumentError,
             format("'%<path>s' could not be split at a directory separator into two " \
                    'parts, the first having a maximum length of 155 bytes and the ' \
                    'second having a maximum length of 100 bytes.', path: path)
