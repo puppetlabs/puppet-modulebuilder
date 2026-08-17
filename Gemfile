@@ -36,6 +36,9 @@ group :development do
 
   # Required for testing on Windows
   gem 'ffi', platforms: [:x64_mingw]
+  # Ruby 4.0 unbundled win32ole from the standard library; puppet's Windows code still
+  # expects it to just be there.
+  gem 'win32ole', platforms: [:x64_mingw]
   # puppet-modulebuilder supports minitar 0.x and 1.x
   # puppet 8.10.0 can use `tar` (the linux CLI tool) *or* minitar 0.x
   # on windows, puppet 8.10 defaults to minitar
