@@ -1,11 +1,18 @@
 # frozen_string_literal: true
 
-source 'https://rubygems.org'
+# For puppetcore, set GEM_SOURCE_PUPPETCORE = 'https://rubygems-puppetcore.puppet.com'
+gemsource_default = ENV['GEM_SOURCE'] || 'https://rubygems.org'
+gemsource_puppetcore = if ENV['PUPPET_FORGE_TOKEN'].to_s.empty?
+                         ENV['GEM_SOURCE_PUPPETCORE'] || gemsource_default
+                       else
+                         'https://rubygems-puppetcore.puppet.com'
+                       end
+source gemsource_default
 
 # Specify your gem's dependencies in puppet-modulebuilder.gemspec
 gemspec
 
-def location_for(place_or_version, fake_version = nil)
+def location_for(place_or_version, fake_version = nil, opts = {})
   git_url_regex = /\A(?<url>(https?|git)[:@][^#]*)(#(?<branch>.*))?/
   file_url_regex = %r{\Afile://(?<path>.*)}
 
@@ -14,12 +21,12 @@ def location_for(place_or_version, fake_version = nil)
   elsif place_or_version && (file_url = place_or_version.match(file_url_regex))
     ['>= 0', { path: File.expand_path(file_url[:path]), require: false }]
   else
-    [place_or_version, { require: false }]
+    [place_or_version, { require: false }.merge(opts)]
   end
 end
 
 group :development do
-  gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION'])
+  gem 'puppet', *location_for(ENV.fetch('PUPPET_GEM_VERSION', nil), nil, { source: gemsource_puppetcore })
 
   gem 'rake'
   gem 'rspec', '~> 3.1'
@@ -29,6 +36,9 @@ group :development do
 
   # Required for testing on Windows
   gem 'ffi', platforms: [:x64_mingw]
+  # Ruby 4.0 unbundled win32ole from the standard library; puppet's Windows code still
+  # expects it to just be there.
+  gem 'win32ole', platforms: [:x64_mingw]
   # puppet-modulebuilder supports minitar 0.x and 1.x
   # puppet 8.10.0 can use `tar` (the linux CLI tool) *or* minitar 0.x
   # on windows, puppet 8.10 defaults to minitar
