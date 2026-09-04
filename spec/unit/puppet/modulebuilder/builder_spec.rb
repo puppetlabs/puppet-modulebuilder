@@ -527,15 +527,16 @@ RSpec.describe Puppet::Modulebuilder::Builder do
 
     let(:module_dest) { File.join(root_dir, 'tmp') }
     let(:build_dir_name) { builder.build_context[:build_dir_name] }
-    let(:mock_gz) { instance_double(Zlib::GzipWriter) }
     let(:mock_tar) { instance_double(Minitar::Output) }
-    let(:mock_file) { instance_double(File) }
     let(:mock_stat) { instance_double(File::Stat, mode: 0o100644) }
 
     before do
       require 'zlib'
       require 'minitar'
       require 'find'
+
+      mock_gz   = instance_double(Zlib::GzipWriter)
+      mock_file = instance_double(File)
 
       allow(FileUtils).to receive(:rm_f).with(builder.package_file)
       allow(Dir).to receive(:chdir).with(builder.destination).and_yield
