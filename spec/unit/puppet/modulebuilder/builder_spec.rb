@@ -36,6 +36,14 @@ RSpec.describe Puppet::Modulebuilder::Builder do
       end
     end
 
+    context 'when the source is not readable' do
+      it do
+        result = builder
+        allow(result).to receive(:file_readable?).with(module_source).and_return(false)
+        expect { result.source }.to raise_error(ArgumentError, /does not exist/)
+      end
+    end
+
     context 'with an invalid logger' do
       it do
         expect do
@@ -76,6 +84,46 @@ RSpec.describe Puppet::Modulebuilder::Builder do
 
     it { is_expected.to be_a(Hash) }
     it { is_expected.to include('name' => 'my-module', 'version' => '0.1.0') }
+
+    context 'when metadata.json does not exist' do
+      before do
+        allow(builder).to receive(:file_exists?).with(/metadata\.json/).and_return(false)
+      end
+
+      it 'raises an error' do
+        expect { builder.metadata }.to raise_error(ArgumentError, /does not exist/)
+      end
+    end
+
+    context 'when metadata.json is not readable' do
+      before do
+        allow(builder).to receive(:file_exists?).with(/metadata\.json/).and_return(true)
+        allow(builder).to receive(:file_readable?).with(/metadata\.json/).and_return(false)
+      end
+
+      it 'raises an error' do
+        expect { builder.metadata }.to raise_error(ArgumentError, /Unable to open/)
+      end
+    end
+
+    context 'when metadata.json contains invalid JSON' do
+      before do
+        allow(builder).to receive(:file_exists?).with(/metadata\.json/).and_return(true)
+        allow(builder).to receive(:file_readable?).with(/metadata\.json/).and_return(true)
+        allow(builder).to receive(:read_file).with(/metadata\.json/).and_return('{not: valid}')
+      end
+
+      it 'raises an error' do
+        expect { builder.metadata }.to raise_error(ArgumentError, /Invalid JSON/)
+      end
+    end
+
+    context 'when called more than once' do
+      it 'only reads the file once' do
+        expect(builder).to receive(:read_file).with(/metadata\.json/).once.and_return("{\"name\": \"my-module\",\n\"version\": \"0.1.0\"}")
+        2.times { builder.metadata }
+      end
+    end
   end
 
   describe '#package_file' do
@@ -336,6 +384,14 @@ RSpec.describe Puppet::Modulebuilder::Builder do
         expect(subject).to have_attributes(specs: array_including(an_instance_of(PathSpec::GitIgnoreSpec)))
       end
     end
+
+    context 'when the destination is outside the module source' do
+      let(:module_dest) { File.join(root_dir, 'other', 'destination') }
+
+      it 'does not add the destination to the ignore list' do
+        expect(subject.specs.map(&:pattern)).not_to include('/destination/')
+      end
+    end
   end
 
   describe '#warn_symlink' do
@@ -353,6 +409,185 @@ RSpec.describe Puppet::Modulebuilder::Builder do
 
       expect(builder.logger).to receive(:warn).with('Symlinks in modules are not supported and will not be included in the package. Please investigate symlink /symlink_path -> /realpath.')
       expect(builder.warn_symlink('/tmp/foo')).to be_nil
+    end
+  end
+
+  describe '#build' do
+    include_context 'with mock metadata'
+
+    before do
+      allow(builder).to receive(:create_build_dir)
+      allow(builder).to receive(:stage_module_in_build_dir)
+      allow(builder).to receive(:build_package)
+      allow(builder).to receive(:cleanup_build_dir)
+    end
+
+    it 'creates the build dir, stages the module, builds the package and returns the package file' do
+      expect(builder).to receive(:create_build_dir).ordered
+      expect(builder).to receive(:stage_module_in_build_dir).ordered
+      expect(builder).to receive(:build_package).ordered
+      expect(builder.build).to eq(builder.package_file)
+    end
+
+    it 'cleans up the build directory even when an error is raised' do
+      allow(builder).to receive(:stage_module_in_build_dir).and_raise(RuntimeError, 'build failed')
+      expect(builder).to receive(:cleanup_build_dir)
+      expect { builder.build }.to raise_error(RuntimeError, 'build failed')
+    end
+  end
+
+  describe '#create_build_dir' do
+    include_context 'with mock metadata'
+
+    it 'cleans up and then creates the build directory' do
+      expect(builder).to receive(:cleanup_build_dir).ordered
+      expect(builder).to receive(:fileutils_mkdir_p).with(builder.build_dir).ordered
+      builder.create_build_dir
+    end
+  end
+
+  describe '#cleanup_build_dir' do
+    include_context 'with mock metadata'
+
+    it 'removes the build directory recursively' do
+      expect(FileUtils).to receive(:rm_rf).with(builder.build_dir, secure: true)
+      builder.cleanup_build_dir
+    end
+  end
+
+  describe '#package_already_exists?' do
+    include_context 'with mock metadata'
+
+    context 'when the package file already exists' do
+      before do
+        allow(builder).to receive(:file_exists?).with(builder.package_file).and_return(true)
+      end
+
+      it { expect(builder.package_already_exists?).to be(true) }
+    end
+
+    context 'when the package file does not exist' do
+      before do
+        allow(builder).to receive(:file_exists?).with(builder.package_file).and_return(false)
+      end
+
+      it { expect(builder.package_already_exists?).to be(false) }
+    end
+  end
+
+  describe '#copy_mtime' do
+    let(:module_source) { File.join(root_dir, 'tmp', 'my-module') }
+    let(:path) { File.join(module_source, 'manifests') }
+    let(:mtime) { Time.now }
+    let(:release_name) { 'my-module-0.0.1' }
+
+    before do
+      builder.release_name = release_name
+      allow(builder).to receive(:file_stat).with(path).and_return(instance_double(File::Stat, mtime: mtime))
+    end
+
+    it 'touches the destination path with the source mtime' do
+      dest_path = File.join(builder.build_dir, 'manifests')
+      expect(builder).to receive(:fileutils_touch).with(dest_path, mtime: mtime)
+      builder.copy_mtime(path)
+    end
+
+    context 'when the path contains non-ASCII characters' do
+      let(:path) { File.join(module_source, "\330\271to") }
+
+      it 'raises an ArgumentError' do
+        expect { builder.copy_mtime(path) }.to raise_error(ArgumentError, /can only include ASCII characters/)
+      end
+    end
+  end
+
+  describe '#stage_module_in_build_dir with directories' do
+    let(:module_source) { File.join(root_dir, 'tmp', 'my-module') }
+    let(:subdir) { File.join(module_source, 'manifests') }
+
+    before do
+      require 'pathspec'
+      require 'find'
+      allow(builder).to receive(:ignored_files).and_return(PathSpec.new("/spec/\n"))
+      allow(Find).to receive(:find).with(module_source).and_yield(subdir)
+      allow(builder).to receive(:file_directory?).with(subdir).and_return(true)
+      allow(builder).to receive(:stage_path).with(subdir)
+      allow(builder).to receive(:copy_mtime)
+    end
+
+    it 'resets mtime for the source directory and any staged subdirectories' do
+      expect(builder).to receive(:copy_mtime).with(module_source)
+      expect(builder).to receive(:copy_mtime).with(subdir)
+      builder.stage_module_in_build_dir
+    end
+  end
+
+  describe '#build_package' do
+    include_context 'with mock metadata'
+
+    let(:module_dest) { File.join(root_dir, 'tmp') }
+    let(:build_dir_name) { builder.build_context[:build_dir_name] }
+    let(:mock_tar) { instance_double(Minitar::Output) }
+    let(:mock_stat) { instance_double(File::Stat, mode: 0o100644) }
+
+    before do
+      require 'zlib'
+      require 'minitar'
+      require 'find'
+
+      mock_gz   = instance_double(Zlib::GzipWriter)
+      mock_file = instance_double(File)
+
+      allow(FileUtils).to receive(:rm_f).with(builder.package_file)
+      allow(Dir).to receive(:chdir).with(builder.destination).and_yield
+      allow(File).to receive(:open).with(builder.package_file, 'wb').and_return(mock_file)
+      allow(Zlib::GzipWriter).to receive(:new).with(mock_file).and_return(mock_gz)
+      allow(Minitar::Output).to receive(:new).with(mock_gz).and_return(mock_tar)
+      allow(Find).to receive(:find).with(build_dir_name).and_yield(build_dir_name)
+      allow(File).to receive(:stat).with(build_dir_name).and_return(mock_stat)
+      allow(Minitar).to receive(:dir?).with(build_dir_name).and_return(true)
+      allow(Minitar).to receive(:pack_file).with(anything, mock_tar)
+      allow(mock_tar).to receive(:close)
+    end
+
+    it 'removes any existing package file before building' do
+      expect(FileUtils).to receive(:rm_f).with(builder.package_file)
+      builder.build_package
+    end
+
+    it 'packs entries into the tarball' do
+      expect(Minitar).to receive(:pack_file).with(hash_including(name: build_dir_name), mock_tar)
+      builder.build_package
+    end
+
+    it 'ensures the tar is closed' do
+      expect(mock_tar).to receive(:close)
+      builder.build_package
+    end
+
+    context 'when an entry has insufficient permissions' do
+      let(:mock_stat) { instance_double(File::Stat, mode: 0o100600) }
+
+      it 'upgrades the entry mode and logs a debug message' do
+        expect(builder.logger).to receive(:debug).with(/Updated permissions/)
+        builder.build_package
+      end
+    end
+  end
+
+  describe '#read_file (private)' do
+    context 'when nil_on_error is true and reading fails' do
+      it 'returns nil instead of raising' do
+        allow(File).to receive(:read).and_raise(StandardError, 'disk error')
+        expect(builder.send(:read_file, '/nonexistent', nil_on_error: true)).to be_nil
+      end
+    end
+
+    context 'when nil_on_error is false (default) and reading fails' do
+      it 'raises the error' do
+        allow(File).to receive(:read).and_raise(StandardError, 'disk error')
+        expect { builder.send(:read_file, '/nonexistent') }.to raise_error(StandardError, 'disk error')
+      end
     end
   end
 end
