@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'fileutils', '~> 1.7'
   spec.add_dependency 'logger', '~> 1.5'
 
-  spec.add_development_dependency 'voxpupuli-rubocop', '~> 4.0.0'
+  spec.add_development_dependency 'voxpupuli-rubocop', '~> 4.3.0'
 
   spec.required_ruby_version = Gem::Requirement.new('>= 3.1.0')
 end
