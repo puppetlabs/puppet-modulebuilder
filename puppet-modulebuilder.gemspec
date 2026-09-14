@@ -26,6 +26,9 @@ Gem::Specification.new do |spec|
   # minitar and pathspec is required for building Puppet modules
   spec.add_dependency 'minitar', '>= 0.9', '< 2'
   spec.add_dependency 'pathspec', '>= 0.2.1', '< 3.0.0'
+  # logger and fileutils are no longer default gems as of Ruby 4.0
+  spec.add_dependency 'fileutils', '~> 1.7'
+  spec.add_dependency 'logger', '~> 1.5'
 
   spec.add_development_dependency 'voxpupuli-rubocop', '~> 4.0.0'
 
